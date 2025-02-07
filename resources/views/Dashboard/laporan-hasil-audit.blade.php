@@ -51,7 +51,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     <a href="{{ route('audit.create') }}" class="btn btn-primary mr-1">
-                                        Tambah Laporan</a>
+                                        Tambah Laporan Audit</a>
                                 </div>
                                 <div class="card-content collapse show">
                                     <div class="card-body card-dashboard">

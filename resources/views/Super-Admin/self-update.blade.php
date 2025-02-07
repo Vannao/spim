@@ -90,37 +90,6 @@
                                                     <div class="help-block font-small-3"></div>
                                                 </fieldset>
                                                 <fieldset class="form-group position-relative has-icon-left">
-                                                    <div class="form-control-position">
-                                                        <i class="fa fa-user"></i>
-                                                    </div>
-                                                    <select name="role" class="form-control input-lg pl-4" required>
-                                                        <option value="" disabled selected>Pilih Role</option>
-                                                        <option value="Super Admin">Super Admin</option>
-                                                        <option value="Admin">Admin</option>
-                                                        <option value="User">User</option>
-                                                    </select>
-                                                </fieldset>
-                                                <fieldset class="form-group position-relative has-icon-left">
-                                                    <div class="form-control-position">
-                                                        <i class="fa fa fa-users"></i>
-                                                    </div>
-                                                    <select name="divisi" class="form-control input-lg pl-4" required>
-                                                        <option value="" disabled selected>Pilih Divisi</option>
-                                                        <option value="Sekretariat">Sekretariat</option>
-                                                        <option value="Manager Management Proyek TPK">Manager Management
-                                                            Proyek TPK</option>
-                                                        <option value="GM Terminal Peti Kemas">GM Terminal Peti Kemas
-                                                        </option>
-                                                        <option value="GM Operasi & Pemasaran">GM Operasi & Pemasaran
-                                                        </option>
-                                                        <option value="GM Keuangan & Risk Management">GM Keuangan & Risk
-                                                            Management</option>
-                                                        <option value="GM SDM & Umum">GM SDM & Umum</option>
-                                                        <option value="Kepala Satuan Pengawas Internal">Kepala Satuan
-                                                            Pengawas Internal</option>
-                                                    </select>
-                                                </fieldset>
-                                                <fieldset class="form-group position-relative has-icon-left">
                                                     <input type="password" class="form-control input-lg" name="password"
                                                         tabindex="1" placeholder="*********">
                                                     <div class="form-control-position">

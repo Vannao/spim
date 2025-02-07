@@ -94,7 +94,9 @@
                                                         <i class="fa fa-user"></i>
                                                     </div>
                                                     <select name="role" class="form-control input-lg pl-4" required>
-                                                        <option value="" disabled selected>Pilih Role</option>
+                                                        <option value="{{ old('email', $pengguna->role) }}">
+                                                            {{ old('email', $pengguna->role) }} (Role Anda Sekarang)
+                                                        </option>
                                                         <option value="Super Admin">Super Admin</option>
                                                         <option value="Admin">Admin</option>
                                                         <option value="User">User</option>
@@ -105,7 +107,9 @@
                                                         <i class="fa fa fa-users"></i>
                                                     </div>
                                                     <select name="divisi" class="form-control input-lg pl-4" required>
-                                                        <option value="" disabled selected>Pilih Divisi</option>
+                                                        <option value="{{ old('email', $pengguna->divisi) }}">
+                                                            {{ old('email', $pengguna->divisi) }} (Divisi Anda Sekarang)
+                                                        </option>
                                                         <option value="Sekretariat">Sekretariat</option>
                                                         <option value="Manager Management Proyek TPK">Manager Management
                                                             Proyek TPK</option>
@@ -122,7 +126,8 @@
                                                 </fieldset>
                                                 <fieldset class="form-group position-relative has-icon-left">
                                                     <input type="password" class="form-control input-lg" name="password"
-                                                        tabindex="1" placeholder="*********">
+                                                        tabindex="1"
+                                                        placeholder="Masukkan Password Baru / Lama Untuk konfirmasi">
                                                     <div class="form-control-position">
                                                         <i class="fa fa-key"></i>
                                                     </div>

@@ -51,7 +51,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/update-pengguna/{id_user}', [AuthController::class, 'updatePengguna'])->name('updatePengguna');
 
 
-    Route::get('/self-halaman-update-pengguna/{id_user}', [AuthController::class, 'selfHalamanUpdatePengguna'])
+    Route::get('/ubah-profile/{id_user}', [AuthController::class, 'selfHalamanUpdatePengguna'])
         ->name('selfHalamanUpdatePengguna');
 
 
