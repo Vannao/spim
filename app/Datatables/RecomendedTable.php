@@ -24,6 +24,16 @@ class RecomendedTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+        // Ambil filter divisi dari request
+        $filterDivisi = request()->get('filterDivisi');
+
+        // Tambahkan filter ke query
+        if (!empty($filterDivisi)) {
+            $query->whereHas('audit', function ($q) use ($filterDivisi) {
+                $q->where('divisi', $filterDivisi);
+            });
+        }
+
         return (new EloquentDataTable($query))
             ->addColumn('no', function ($row) use ($query) {
                 $index = $query->get()->search($row) + 1;

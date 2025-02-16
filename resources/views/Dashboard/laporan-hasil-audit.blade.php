@@ -164,25 +164,29 @@
                                     <th class="text-center">:</th>
                                     <td >${response.data.title}</td>
                                 </tr>
-                                <tr>
-                                    <th>Bentuk Kegiatan</th>
-                                    <th class="text-center">:</th>
-                                    <td>${response.data.activity}</td>
-                                </tr>
+
                                 <tr>
                                     <th>Surat Tugas</th>
                                     <th class="text-center">:</th>
                                     <td><a href="${response.data.file_surat_tugas}" class="btn btn-primary" target="_BLANK">Lihat File</a></td>
                                 </tr>
                                 <tr>
-                                    <th>Nota Dinas Permintaan Data</th>
+                                    <th>Berita Acara Exit Meeting</th>
                                     <th class="text-center">:</th>
-                                    <td><a href="${response.data.file_nota_dinas}" class="btn btn-primary" target="_BLANK">Lihat File</a></td>
+                                    <td><a href="/storage/${response.data.berita_acara_exit_meeting}" class="btn btn-primary" target="_BLANK">Lihat File</a></td>
+
                                 </tr>
+
                                 <tr>
-                                    <th>Anggota SPI</th>
+                                    <th>PKA</th>
                                     <th class="text-center">:</th>
-                                    <td>${members}</td>
+                                    <td><a href="/storage/${response.data.pka}" class="btn btn-primary" target="_BLANK">Lihat File</a></td>
+                                </tr>
+
+                                <tr>
+                                    <th>laporan_dan_lampiran</th>
+                                    <th class="text-center">:</th>
+                                    <td><a href="/storage/${response.data.laporan_dan_lampiran}" class="btn btn-primary" target="_BLANK">Lihat File</a></td>
                                 </tr>
                             </table>
                         `);

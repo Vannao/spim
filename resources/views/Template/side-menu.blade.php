@@ -12,8 +12,7 @@
                         Hasil
                         Audit</a></li>
                 <li><a class="menu-item" href="{{ route('tindak-lanjut.index') }}"><i class="fa fa-check-circle"></i>
-                        Tindak
-                        Lanjut</a></li>
+                        Monitoring TL</a></li>
                 <li><a class="menu-item" href="{{ route('laporan.index') }}"><i class="fa fa-folder-open"></i> Laporan
                         Kegiatan SPI</a></li>
             </ul>
@@ -51,8 +50,8 @@
                         Hasil
                         Audit</a></li>
                 <li><a class="menu-item" href="{{ route('tindak-lanjut.index') }}"><i class="fa fa-check-circle"></i>
-                        Tindak
-                        Lanjut</a></li>
+                        Monitoring TL
+                    </a></li>
                 <li><a class="menu-item" href="{{ route('laporan.index') }}"><i class="fa fa-folder-open"></i> Laporan
                         Kegiatan SPI</a></li>
             </ul>

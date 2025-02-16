@@ -16,6 +16,45 @@
             white-space: normal;
             max-width: 200px;
         }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .badge-warning {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .badge-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .pagination {
+            margin: 0;
+        }
+
+        .page-item.active .page-link {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .page-link {
+            color: #007bff;
+        }
+
+        .page-link:hover {
+            color: #0056b3;
+        }
     </style>
 </head>
 
@@ -23,7 +62,6 @@
     data-menu="vertical-menu" data-col="2-columns">
 
     {{-- Navbar --}}
-    <!-- fixed-top-->
     @include('Template.nav')
     {{-- Navbar --}}
 
@@ -35,13 +73,13 @@
         <div class="content-wrapper">
             <div class="content-header row">
                 <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
-                    <h3 class="content-header-title mb-0 d-inline-block">Tindak Lanjut Hasil Audit</h3>
+                    <h3 class="content-header-title mb-0 d-inline-block">Monitoring Tindak Lanjut</h3>
                     <div class="row breadcrumbs-top d-inline-block">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a>
                                 </li>
-                                <li class="breadcrumb-item active">Tindak Lanjut Hasil Audit
+                                <li class="breadcrumb-item active">Monitoring Tindak Lanjut
                                 </li>
                             </ol>
                         </div>
@@ -49,7 +87,8 @@
                 </div>
             </div>
             <div class="content-body">
-                <!-- Tabel Rekomendasi -->
+
+
                 <section id="dom">
                     <div class="row">
                         <div class="col-12">
@@ -65,6 +104,7 @@
                                                 </button>
                                             </div>
                                         @endif
+
                                         @if (Session::get('error'))
                                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                                 {{ Session::get('danger') }}
@@ -74,8 +114,71 @@
                                                 </button>
                                             </div>
                                         @endif
-                                        <div class="table-responsive mt-3">
-                                            {{ $dataTable->table(['class' => 'table table-striped table-bordered dom-jQuery-events', 'id' => 'table-id']) }}
+
+                                        <!-- Filter Divisi -->
+                                        <form action="{{ route('tindak-lanjut.index') }}" method="GET">
+                                            <div class="row mb-3">
+                                                <div class="col-md-3">
+                                                    <label for="filterDivisi">Filter Divisi:</label>
+                                                    <select id="filterDivisi" name="divisi" class="form-control">
+                                                        <option value="">Semua Divisi</option>
+                                                        @foreach ($divisis as $divisi)
+                                                            <option value="{{ $divisi }}"
+                                                                {{ request('divisi') == $divisi ? 'selected' : '' }}>
+                                                                {{ $divisi }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 align-self-end">
+                                                    <button type="submit" class="btn btn-primary">Filter</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Judul Rekomendasi</th>
+                                                        <th>Status</th>
+                                                        <th>Audit Terkait</th>
+                                                        <th>Tanggal Audit</th>
+                                                        <th>Ubah Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($recomendeds as $recomended)
+                                                        <tr>
+                                                            <td>{{ $recomended->id }}</td>
+                                                            <td>{{ $recomended->title }}</td>
+                                                            <td>
+                                                                @if ($recomended->status == 1)
+                                                                    <span class="badge badge-success">Terbuka</span>
+                                                                @elseif ($recomended->status == 2)
+                                                                    <span class="badge badge-warning">On Progress</span>
+                                                                @else
+                                                                    <span class="badge badge-secondary">Unknown</span>
+                                                                @endif
+                                                            </td>
+                                                            <td>{{ $recomended->audit->title ?? 'Tidak Ada Audit' }}
+                                                            </td>
+                                                            <td>{{ $recomended->audit->date ?? '-' }}</td>
+                                                            <td>
+                                                                <a href="{{ route('halamanUpdateRecomendeds', $recomended->id) }}"
+                                                                    class="btn btn-sm btn-primary">
+                                                                    Ubah Status
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <!-- Paginasi -->
+                                        <div class="pagination-container">
+                                            {{ $recomendeds->links('pagination::bootstrap-5') }}
                                         </div>
                                     </div>
                                 </div>
@@ -83,172 +186,15 @@
                         </div>
                     </div>
                 </section>
-                <!-- DOM - jQuery events table -->
-                <div class="modal fade" id="detailLaporanHasilAudit" data-backdrop="static" data-keyboard="false"
-                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel"><strong>Ubah Status</strong></h5>
-                            </div>
-                            <div class="modal-body">
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-warning" onclick="handlerSave()"><i
-                                        class="fa fa-check-square-o"></i> Save</button>
-                                <button type="button" class="btn grey btn-outline-secondary"
-                                    onclick="handlerCloseModal()">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
-    <!-- ////////////////////////////////////////////////////////////////////////////-->
 
     {{-- Footer --}}
     @include('Template.footer')
 
     {{-- JS --}}
     @include('Template.js')
-    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
-    <script>
-        const handlerSetStatus = (id) => {
-            $("#detailLaporanHasilAudit .modal-body").html();
-            $.ajax({
-                url: "{{ url('tindak-lanjut') }}" + `/${id}/show`,
-                type: 'GET',
-                dataType: 'JSON',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    if (response.data) {
-                        let findings = '';
-                        let status = '';
-
-                        if (response.data.audit.findings) {
-                            response.data.audit.findings.map((value, index) => {
-                                findings += `<span>${index + 1}. ${value.title}</span><br>`
-                            })
-                        }
-
-                        if (response.statusData) {
-                            status +=
-                                `<select class="form-control" name="setStatus" id="setStatus" onchange="handlerChangeStatus(this.value)">`;
-                            status += `<option value="">Pilih Status</option>`
-                            response.statusData.map((value) => {
-                                status += `<option value="${value.value}">${value.label}</option>`
-                            })
-                            status += `</select>`;
-                        }
-                        $("#detailLaporanHasilAudit").modal('show');
-                        $("#detailLaporanHasilAudit .modal-body").html(`
-                            <input type="hidden" class="form-control" name="dataId" id="dataId" value="${response.data.id}"/>
-                            <table class="table w-100">
-                                <tr>
-                                    <th width="25%">Nomor LHA</th>
-                                    <th width="2%" class="text-center">:</th>
-                                    <td width="71%">${response.data.audit.code}</td>
-                                </tr>
-                                <tr>
-                                    <th>Judul LHA</th>
-                                    <th class="text-center">:</th>
-                                    <td >${response.data.audit.title}</td>
-                                </tr>
-                                <tr>
-                                    <th>Temuan</th>
-                                    <th class="text-center">:</th>
-                                    <td>${findings}</td>
-                                </tr>
-                                <tr>
-                                    <th>Rekomendasi</th>
-                                    <th class="text-center">:</th>
-                                    <td>${response.data.title}</td>
-                                </tr>
-                                <tr>
-                                    <th>Status</th>
-                                    <th class="text-center">:</th>
-                                    <td>${status}</td>
-                                </tr>
-                                <tr id="fieldClosedAudit" style="display: none">
-                                    <th>Closed (Upload Surat/Nota Dinas)</th>
-                                    <th class="text-center">:</th>
-                                    <td>
-                                        <div class="position-relative has-icon-left">
-                                            <input type="file" name="attacment" id="attacment" class="form-control">
-                                            <div class="form-control-position">
-                                                <i class="fa fa-file-pdf-o"></i>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        `);
-                    }
-                },
-                error: function(xhr, error, status) {
-                    alert(error)
-                },
-            });
-        }
-
-        const handlerChangeStatus = (status) => {
-            if (status == 3) {
-                $("#fieldClosedAudit").show();
-            } else {
-                $("#fieldClosedAudit").hide();
-                $("#fieldClosedAudit").val('');
-            }
-        }
-
-        const handlerCloseModal = () => {
-            $("#detailLaporanHasilAudit").modal('hide');
-            $("#detailLaporanHasilAudit .modal-body").html('')
-        }
-
-        const handlerSave = () => {
-            const dataId = $("#dataId").val();
-            const status = $("#setStatus").val();
-            const fileDinas = $("#attacment");
-
-            if (status == '') alert('status harus diisi');
-            if (status == 3 && fileDinas.val() == '') alert('uplaod file tidak boleh kosong');
-
-            const formData = new FormData();
-            formData.append('status', status);
-            if (status == 3) {
-                formData.append('file_dinas', fileDinas[0].files[0]);
-            }
-            $.ajax({
-                url: "{{ url('tindak-lanjut') }}" + `/${dataId}/update`,
-                type: 'POST',
-                dataType: 'JSON',
-                processData: false,
-                contentType: false,
-                data: formData,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    if (response.status) {
-                        alert(response.message);
-                        handlerCloseModal();
-                        location.reload(); // reload page
-                    } else {
-                        alert(response.message);
-                    }
-                },
-                error: function(xhr, error, status) {
-                    alert(error)
-                },
-            });
-        }
-    </script>
-    {{-- JS --}}
-
 </body>
 
 </html>

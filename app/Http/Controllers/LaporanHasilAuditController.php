@@ -45,38 +45,47 @@ class LaporanHasilAuditController extends Controller
             'surat_tugas' => 'required|file|mimes:pdf',
             'nota_dinas' => 'required|file|mimes:pdf',
             'bentuk_kegiatan' => 'required|string',
+            'berita_acara_exit_meeting' => 'required|file|mimes:pdf',
+            'pka' => 'required|file|mimes:pdf',
+            'laporan_dan_lampiran' => 'required|file|mimes:pdf',
+            'anggota' => 'nullable|array',
+            'anggota.*.anggota' => 'nullable|string'
         ]);
 
         DB::beginTransaction();
         try {
-            $member = [];
-            if ($request->anggota) {
-                foreach ($request->anggota as $key => $value) {
-                    if ($value['anggota']) $member[] = $value['anggota'];
-                }
-            }
+            // Pastikan folder penyimpanan ada
+            Storage::makeDirectory('public/audit/uploads');
 
-            $suratDinas = $request->file('surat_tugas')->store('uploads', 'public');
-            $notaDinas = $request->file('nota_dinas')->store('uploads', 'public');
+            // Simpan anggota jika ada
+            $member = array_filter(array_column($request->anggota ?? [], 'anggota'));
 
+            // Simpan file dengan path yang lebih terstruktur
+            $filePaths = [
+                'file_surat_tugas' => $request->file('surat_tugas')->store('audit/uploads', 'public'),
+                'file_nota_dinas' => $request->file('nota_dinas')->store('audit/uploads', 'public'),
+                'berita_acara_exit_meeting' => $request->file('berita_acara_exit_meeting')->store('audit/uploads', 'public'),
+                'pka' => $request->file('pka')->store('audit/uploads', 'public'),
+                'laporan_dan_lampiran' => $request->file('laporan_dan_lampiran')->store('audit/uploads', 'public'),
+            ];
+
+            // Simpan ke database
             Audit::create([
                 'code' => $request->nomorLaporan,
                 'date' => $request->tanggal,
                 'divisi' => $request->divisi,
                 'title' => $request->judul,
                 'activity' => $request->bentuk_kegiatan,
-                'file_surat_tugas' => $suratDinas,
-                'file_nota_dinas' => $notaDinas,
-                'member' => !$member ? NULL : json_encode($member),
-            ]);
+                'member' => $member ? json_encode($member) : null,
+            ] + $filePaths);
+
             DB::commit();
-            return redirect()->route('audit.index')->with('success', 'Successfully Added Data!');
+            return redirect()->route('audit.index')->with('success', 'Data berhasil ditambahkan!');
         } catch (\Throwable $th) {
             DB::rollback();
-            return redirect()->back()->with('error', $th->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
         }
     }
-
     /**
      * Display the specified resource.
      */

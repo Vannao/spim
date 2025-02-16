@@ -8,14 +8,28 @@ use Illuminate\Database\Eloquent\Model;
 class Audit extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'title', 'code', 'date', 'divisi', 'activity', 'file_surat_tugas', 'file_nota_dinas', 'closed_file_surat', 'member', 'status'
+        'title',
+        'code',
+        'date',
+        'divisi',
+        'activity',
+        'file_surat_tugas',
+        'file_nota_dinas',
+        'closed_file_surat',
+        'member',
+        'status',
+        'berita_acara_exit_meeting',
+        'pka',
+        'laporan_dan_lampiran'
     ];
 
     public function getFileSuratTugasAttribute($value)
     {
         return $value ? url('storage/' . $value) : null;
     }
+
     public function getFileNotaDinasAttribute($value)
     {
         return $value ? url('storage/' . $value) : null;
@@ -36,7 +50,7 @@ class Audit extends Model
         return $this->hasMany(Notice::class, 'audit_id');
     }
 
-    public function recomended()
+    public function recomendeds()
     {
         return $this->hasMany(Recomended::class, 'audit_id');
     }

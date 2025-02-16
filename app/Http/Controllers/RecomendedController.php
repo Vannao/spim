@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\DataTables\RecomendedTable;
-use Illuminate\Support\Facades\DB;
-use App\Models\Recomended;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Storage;
 use App\Enums\Status;
 use App\Models\Audit;
+use App\Models\Recomended;
+use App\Models\Recomendeds;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\DataTables\RecomendedTable;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 
 class RecomendedController extends Controller
 {
@@ -22,9 +23,63 @@ class RecomendedController extends Controller
         return $dataTable->render('Dashboard.Rekomendasi.rekomendasi', ['auditId' => $auditId]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function tampilTable(Request $request)
+    {
+        $recomendeds = Recomended::with('audit')
+            ->whereIn('status', [1, 2])
+            ->when($request->divisi, function ($query, $divisi) {
+                return $query->whereHas('audit', function ($q) use ($divisi) {
+                    $q->where('divisi', $divisi);
+                });
+            })
+            ->paginate(5); // Menampilkan 10 data per halaman
+
+        $divisis = Audit::distinct()->pluck('divisi');
+
+        return view('Tindak-Lanjut.tindak-lanjut', [
+            'recomendeds' => $recomendeds,
+            'divisis' => $divisis
+        ]);
+    }
+
+
+    public function halamanUpdateRecomendeds($id)
+    {
+        $recomendeds = Recomended::findOrFail($id);
+        return view('Tindak-Lanjut.ubah-status-tl', ['recomendeds' => $recomendeds]);
+    }
+
+
+    public function updateRecomendeds(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required'
+        ]);
+
+        $recomendeds = Recomended::findOrFail($id);
+
+        $recomendeds->update([
+            'status' => $request->status,
+        ]);
+
+
+        return redirect()->to('tindak-lanjut')->with('success', 'Status Diubah');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function create($auditId)
     {
         return view('Dashboard..Rekomendasi.form-rekomendasi', [

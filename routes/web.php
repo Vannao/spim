@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tambah-pengguna', function () {
         return view('Super-Admin.tambah-pengguna');
     });
+
     Route::get('/manage-pengguna', [AuthController::class, 'tampilPengguna']);
     Route::get('/halaman-update-pengguna/{id_user}', [AuthController::class, 'halamanUpdatePengguna'])->name('halamanUpdatePengguna');
     Route::put('/update-pengguna/{id_user}', [AuthController::class, 'updatePengguna'])->name('updatePengguna');
@@ -58,6 +59,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/register-as-admin', [AuthController::class, 'registerAsAdmin']);
     Route::prefix('audit')->name('audit.')->group(function () {
         Route::get('laporan-hasil-audit', [LaporanHasilAuditController::class, 'index'])->name('index');
+
+
         Route::get('laporan-hasil-audit/{id}/show', [LaporanHasilAuditController::class, 'show'])->name('show');
         Route::get('laporan-hasil-audit/{id}/edit', [LaporanHasilAuditController::class, 'edit'])->name('edit');
         Route::get('laporan-hasil-audit/create', [LaporanHasilAuditController::class, 'create'])->name('create');
@@ -90,7 +93,9 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('rekomendasi/destroy', [RecomendedController::class, 'destroy'])->name('rekomendasi.destroy');
     });
 
-    Route::get('tindak-lanjut', [TindakLanjutController::class, 'index'])->name('tindak-lanjut.index');
+    Route::get('tindak-lanjut', [RecomendedController::class, 'tampilTable'])->name('tindak-lanjut.index');
+    Route::get('ubah-status-tl/{id}', [RecomendedController::class, 'halamanUpdateRecomendeds'])->name('halamanUpdateRecomendeds');
+    Route::put('ubah-status-tl/{id}', [RecomendedController::class, 'updateRecomendeds'])->name('updateRecomendeds');
     Route::get('tindak-lanjut/{recomended}/show', [TindakLanjutController::class, 'show'])->name('tindak-lanjut.show');
     Route::post('tindak-lanjut/{recomended}/update', [TindakLanjutController::class, 'update'])->name('tindak-lanjut.update');
 

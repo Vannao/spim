@@ -183,6 +183,82 @@
                                                     </div>
                                                 </fieldset>
                                             </div>
+
+
+
+                                            {{-- ACONG --}}
+
+
+
+                                            <div class="col-md-3">
+                                                <fieldset class="form-group floating-label-form-group">
+                                                    <label for="surat_tugas">Berita Acara Exit
+                                                        Meeting
+                                                        @if (isset($data))
+                                                            <em class="text-muted">*kosongi jika tidak diubah</em>
+                                                        @endif
+                                                    </label>
+                                                    <div class="position-relative has-icon-left">
+                                                        <input type="file" name="berita_acara_exit_meeting"
+                                                            id="surat_tugas"
+                                                            class="form-control @error('surat_tugas') is-invalid @enderror">
+                                                        <div class="form-control-position">
+                                                            <i class="fa fa-file-pdf-o"></i>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+
+
+                                            <div class="col-md-3">
+                                                <fieldset class="form-group floating-label-form-group">
+                                                    <label for="surat_tugas">Program Kerja
+                                                        Audit
+                                                        @if (isset($data))
+                                                            <em class="text-muted">*kosongi jika tidak diubah</em>
+                                                        @endif
+                                                    </label>
+                                                    <div class="position-relative has-icon-left">
+                                                        <input type="file" name="pka" id="pka"
+                                                            class="form-control @error('pka') is-invalid @enderror">
+                                                        <div class="form-control-position">
+                                                            <i class="fa fa-file-pdf-o"></i>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+
+
+
+                                            <div class="col-md-3">
+                                                <fieldset class="form-group floating-label-form-group">
+                                                    <label for="surat_tugas">Laporan &
+                                                        Lampiran
+                                                        @if (isset($data))
+                                                            <em class="text-muted">*kosongi jika tidak diubah</em>
+                                                        @endif
+                                                    </label>
+                                                    <div class="position-relative has-icon-left">
+                                                        <input type="file" name="laporan_dan_lampiran"
+                                                            id="laporan_dan_lampiran"
+                                                            class="form-control @error('laporan_dan_lampiran') is-invalid @enderror">
+                                                        <div class="form-control-position">
+                                                            <i class="fa fa-file-pdf-o"></i>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                            {{-- ACONG --}}
+
+
+
+
+
+
+
+
+
+
                                             <div class="col-md-6">
                                                 <fieldset class="form-group floating-label-form-group">
                                                     <label for="anggota">Anggota SPI</label>
