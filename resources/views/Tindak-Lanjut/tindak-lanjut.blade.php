@@ -120,15 +120,22 @@
                                             <div class="row mb-3">
                                                 <div class="col-md-3">
                                                     <label for="filterDivisi">Filter Divisi:</label>
-                                                    <select id="filterDivisi" name="divisi" class="form-control">
-                                                        <option value="">Semua Divisi</option>
-                                                        @foreach ($divisis as $divisi)
-                                                            <option value="{{ $divisi }}"
-                                                                {{ request('divisi') == $divisi ? 'selected' : '' }}>
-                                                                {{ $divisi }}
-                                                            </option>
-                                                        @endforeach
+                                                    <select name="divisi" class="form-control input-lg pl-4" required>
+                                                        <option value="" disabled selected>Pilih Divisi</option>
+                                                        <option value="Sekretariat">Sekretariat</option>
+                                                        <option value="Manager Management Proyek TPK">Manager Management
+                                                            Proyek TPK</option>
+                                                        <option value="GM Terminal Peti Kemas">GM Terminal Peti Kemas
+                                                        </option>
+                                                        <option value="GM Operasi & Pemasaran">GM Operasi & Pemasaran
+                                                        </option>
+                                                        <option value="GM Keuangan & Risk Management">GM Keuangan & Risk
+                                                            Management</option>
+                                                        <option value="GM SDM & Umum">GM SDM & Umum</option>
+                                                        <option value="Kepala Satuan Pengawas Internal">Kepala Satuan
+                                                            Pengawas Internal</option>
                                                     </select>
+
                                                 </div>
                                                 <div class="col-md-3 align-self-end">
                                                     <button type="submit" class="btn btn-primary">Filter</button>

@@ -34,11 +34,11 @@ class RecomendedController extends Controller
             })
             ->paginate(5); // Menampilkan 10 data per halaman
 
-        $divisis = Audit::distinct()->pluck('divisi');
+        // $divisis = Audit::distinct()->pluck('divisi');
 
         return view('Tindak-Lanjut.tindak-lanjut', [
             'recomendeds' => $recomendeds,
-            'divisis' => $divisis
+            // 'divisis' => $divisis
         ]);
     }
 

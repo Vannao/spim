@@ -115,16 +115,40 @@
                                                 <fieldset class="form-group floating-label-form-group">
                                                     <label for="divisi">Divisi/Unit</label>
                                                     <div class="position-relative has-icon-left">
-                                                        <input type="text" id="divisi"
-                                                            class="form-control @error('divisi') is-invalid @enderror"
-                                                            placeholder="Divisi/Unit" name="divisi"
-                                                            value="{{ old('divisi', $data->divisi ?? '') }}">
+                                                        <select id="divisi" name="divisi"
+                                                            class="form-control input-lg pl-4 @error('divisi') is-invalid @enderror"
+                                                            required>
+                                                            <option value="" disabled selected>Pilih Divisi
+                                                            </option>
+                                                            <option value="Sekretariat"
+                                                                {{ old('divisi', $data->divisi ?? '') == 'Sekretariat' ? 'selected' : '' }}>
+                                                                Sekretariat</option>
+                                                            <option value="Manager Management Proyek TPK"
+                                                                {{ old('divisi', $data->divisi ?? '') == 'Manager Management Proyek TPK' ? 'selected' : '' }}>
+                                                                Manager Management Proyek TPK</option>
+                                                            <option value="GM Terminal Peti Kemas"
+                                                                {{ old('divisi', $data->divisi ?? '') == 'GM Terminal Peti Kemas' ? 'selected' : '' }}>
+                                                                GM Terminal Peti Kemas</option>
+                                                            <option value="GM Operasi & Pemasaran"
+                                                                {{ old('divisi', $data->divisi ?? '') == 'GM Operasi & Pemasaran' ? 'selected' : '' }}>
+                                                                GM Operasi & Pemasaran</option>
+                                                            <option value="GM Keuangan & Risk Management"
+                                                                {{ old('divisi', $data->divisi ?? '') == 'GM Keuangan & Risk Management' ? 'selected' : '' }}>
+                                                                GM Keuangan & Risk Management</option>
+                                                            <option value="GM SDM & Umum"
+                                                                {{ old('divisi', $data->divisi ?? '') == 'GM SDM & Umum' ? 'selected' : '' }}>
+                                                                GM SDM & Umum</option>
+                                                            <option value="Kepala Satuan Pengawas Internal"
+                                                                {{ old('divisi', $data->divisi ?? '') == 'Kepala Satuan Pengawas Internal' ? 'selected' : '' }}>
+                                                                Kepala Satuan Pengawas Internal</option>
+                                                        </select>
                                                         <div class="form-control-position">
                                                             <i class="fa fa-users"></i>
                                                         </div>
                                                     </div>
                                                 </fieldset>
                                             </div>
+
                                             <div class="col-md-3">
                                                 <fieldset class="form-group floating-label-form-group">
                                                     <label for="judul">Judul Laporan Hasil Audit</label>
