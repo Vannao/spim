@@ -44,7 +44,7 @@ class LaporanHasilAuditController extends Controller
             'judul' => 'required|string',
             'surat_tugas' => 'required|file|mimes:pdf',
             'nota_dinas' => 'required|file|mimes:pdf',
-            'bentuk_kegiatan' => 'required|string',
+            'bentuk_kegiatan' => 'nullable|string',
             'berita_acara_exit_meeting' => 'required|file|mimes:pdf',
             'pka' => 'required|file|mimes:pdf',
             'laporan_dan_lampiran' => 'required|file|mimes:pdf',

@@ -97,9 +97,11 @@ class RecomendedController extends Controller
         $validated = $request->validate([
             'title' => 'required|string',
             'status' => 'required|string',
+            'kesesuaian' => 'required'
         ], [
             'title.required' => 'Rekomendasi harus diisi!',
             'status.required' => 'Status harus diisi!',
+            'kesesuaian.required' => 'Kesesuaian Tolong Diisi'
         ]);
 
         DB::beginTransaction();
@@ -109,6 +111,7 @@ class RecomendedController extends Controller
                 'audit_id' => $auditId,
                 'title' => $request->title,
                 'status' => $request->status,
+                'kesesuaian' => $request->kesesuaian
             ]);
             DB::commit();
             return redirect()->route('audit.rekomendasi.index', $auditId)->with('success', 'Successfully Added Data!');

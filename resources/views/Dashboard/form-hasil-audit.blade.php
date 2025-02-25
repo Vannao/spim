@@ -163,7 +163,7 @@
                                                     </div>
                                                 </fieldset>
                                             </div>
-                                            <div class="col-md-3">
+                                            {{-- <div class="col-md-3">
                                                 <fieldset class="form-group floating-label-form-group">
                                                     <label for="bentuk_kegiatan">Bentuk Kegiatan Audit</label>
                                                     <div class="position-relative has-icon-left">
@@ -176,7 +176,7 @@
                                                         </div>
                                                     </div>
                                                 </fieldset>
-                                            </div>
+                                            </div> --}}
                                             <div class="col-md-3">
                                                 <fieldset class="form-group floating-label-form-group">
                                                     <label for="surat_tugas">Unggah Surat Tugas @if (isset($data))
@@ -283,7 +283,7 @@
 
 
 
-                                            <div class="col-md-6">
+                                            {{-- <div class="col-md-6">
                                                 <fieldset class="form-group floating-label-form-group">
                                                     <label for="anggota">Anggota SPI</label>
                                                     <div class="position-relative has-icon-left repeater-default">
@@ -352,7 +352,7 @@
                                                         </button>
                                                     </div>
                                                 </fieldset>
-                                            </div>
+                                            </div> --}}
 
                                             <div class="col-md-12">
                                                 <a href="{{ route('audit.index') }}"

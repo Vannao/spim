@@ -12,7 +12,7 @@ class Recomended extends Model
     protected $table = 'recomendeds';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['audit_id', 'title', 'status', 'closed_file_surat'];
+    protected $fillable = ['audit_id', 'title', 'status', 'closed_file_surat', 'kesesuaian'];
 
     // Relasi ke model Audit (many-to-one)
     public function audit()

@@ -115,6 +115,23 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <fieldset class="form-group floating-label-form-group">
+                                                    <label for="kesesuaian">Kesesuaian</label>
+                                                    <div class="position-relative has-icon-left">
+                                                        <select id="kesesuaian" name="kesesuaian"
+                                                            class="form-control @error('kesesuaian') is-invalid @enderror">
+                                                            <option value="">-- Pilih Kesesuaian --</option>
+                                                            <option value="sesuai">Sesuai</option>
+                                                            <option value="tidak sesuai"> Tidak Sesuai </option>
+                                                        </select>
+                                                        <div class="form-control-position">
+                                                            <i class="fa fa-exclamation-circle"></i>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <fieldset class="form-group floating-label-form-group">
                                                     <label for="status">Status</label>
                                                     <div class="position-relative has-icon-left">
                                                         <select id="status" name="status"

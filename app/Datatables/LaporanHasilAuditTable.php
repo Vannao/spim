@@ -96,7 +96,7 @@ class LaporanHasilAuditTable extends DataTable
             Column::make('title')->title('Judul LHA'),
             Column::make('date')->title('Tanggal LHA'),
             Column::make('divisi')->title('Divisi / Unit'),
-            Column::make('activity')->title('Bentuk Kegiatan'),
+            // Column::make('activity')->title('Bentuk Kegiatan'),
             // Column::make('berita_acara_exit_meeting')->title('Berita Exit Meeting'),
             Column::computed('action')->title('Aksi')
                 ->exportable(false)
