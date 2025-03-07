@@ -3,6 +3,6 @@
             class="float-md-left d-block d-md-inline-block">Copyright &copy; 2024 <a class="text-bold-800 grey darken-2"
                 href="/index" target="_blank">PERSERO BATAM
             </a>, All rights reserved. </span><span
-            class="float-md-right d-block d-md-inline-blockd-none d-lg-block">Made by Politeknik Negeri Batam <i
+            class="float-md-right d-block d-md-inline-blockd-none d-lg-block">Made by IT Intern of Persero Batam <i
                 class="ft-heart pink"></i></span></p>
 </footer>

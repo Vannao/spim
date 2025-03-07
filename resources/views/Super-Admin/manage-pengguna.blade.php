@@ -54,7 +54,7 @@
                                                     <th>No</th>
                                                     <th>Nama</th>
                                                     <th>Email</th>
-                                                    <th>Divisi</th>
+                                                    <th>Unit</th>
                                                     <th>Role</th>
                                                     <th>Aksi</th>
                                                 </tr>

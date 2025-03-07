@@ -123,7 +123,7 @@
                                                         <i class="fa fa fa-users"></i>
                                                     </div>
                                                     <select name="divisi" class="form-control input-lg pl-4" required>
-                                                        <option value="" disabled selected>Pilih Divisi</option>
+                                                        <option value="" disabled selected>Pilih Unit</option>
                                                         <option value="Sekretariat">Sekretariat</option>
                                                         <option value="Manager Management Proyek TPK">Manager Management
                                                             Proyek TPK</option>

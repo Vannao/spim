@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Storage;
 class LaporanController extends Controller
 {
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Display a listing of the resource.
@@ -53,7 +51,6 @@ class LaporanController extends Controller
             $attachment = $request->file('attachment')->store('uploads', 'public');
 
             ReportActivity::create([
-                'title' => $request->judul,
                 'code' => $request->nomorLaporan,
                 'date' => $request->tanggal,
                 'divisi' => $request->divisi,

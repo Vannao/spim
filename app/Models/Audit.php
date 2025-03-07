@@ -10,7 +10,6 @@ class Audit extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
         'code',
         'date',
         'divisi',

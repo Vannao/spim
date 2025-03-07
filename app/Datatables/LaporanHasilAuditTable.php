@@ -37,10 +37,9 @@ class LaporanHasilAuditTable extends DataTable
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(62px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
-                            <a class="dropdown-item" href="' . route('audit.temuan.index', $row->id) . '">Temuan</a>
                             <a class="dropdown-item" href="' . route('audit.notice.index', $row->id) . '">Hal-hal yang perlu diperhatikan</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="' . route('audit.rekomendasi.index', $row->id) . '">Rekomendasi</a>
+                            <a class="dropdown-item" href="' . route('audit.rekomendasi.index', $row->id) . '">Temuan & Rekomendasi</a>
                         </div>
                     </div>
                 ';
@@ -93,11 +92,8 @@ class LaporanHasilAuditTable extends DataTable
                 ->width(20)
                 ->addClass('text-center'),
             Column::make('code')->title('Nomor LHA'),
-            Column::make('title')->title('Judul LHA'),
             Column::make('date')->title('Tanggal LHA'),
             Column::make('divisi')->title('Divisi / Unit'),
-            // Column::make('activity')->title('Bentuk Kegiatan'),
-            // Column::make('berita_acara_exit_meeting')->title('Berita Exit Meeting'),
             Column::computed('action')->title('Aksi')
                 ->exportable(false)
                 ->printable(false)

@@ -16,37 +16,29 @@ class LaporanHasilAuditController extends Controller
 
     public function __construct() {}
 
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index(LaporanHasilAuditTable $dataTable)
     {
         return $dataTable->render('Dashboard.laporan-hasil-audit');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         return view('Dashboard.form-hasil-audit');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'nomorLaporan' => 'required|unique:audits,code',
             'tanggal' => 'required|date',
             'divisi' => 'required|string',
-            'judul' => 'required|string',
             'surat_tugas' => 'required|file|mimes:pdf',
             'nota_dinas' => 'required|file|mimes:pdf',
             'bentuk_kegiatan' => 'nullable|string',
             'berita_acara_exit_meeting' => 'required|file|mimes:pdf',
-            'pka' => 'required|file|mimes:pdf',
+            'pka' => 'nullable|file|mimes:pdf',
             'laporan_dan_lampiran' => 'required|file|mimes:pdf',
             'anggota' => 'nullable|array',
             'anggota.*.anggota' => 'nullable|string'
@@ -54,27 +46,25 @@ class LaporanHasilAuditController extends Controller
 
         DB::beginTransaction();
         try {
-            // Pastikan folder penyimpanan ada
             Storage::makeDirectory('public/audit/uploads');
 
-            // Simpan anggota jika ada
             $member = array_filter(array_column($request->anggota ?? [], 'anggota'));
 
-            // Simpan file dengan path yang lebih terstruktur
             $filePaths = [
                 'file_surat_tugas' => $request->file('surat_tugas')->store('audit/uploads', 'public'),
                 'file_nota_dinas' => $request->file('nota_dinas')->store('audit/uploads', 'public'),
                 'berita_acara_exit_meeting' => $request->file('berita_acara_exit_meeting')->store('audit/uploads', 'public'),
-                'pka' => $request->file('pka')->store('audit/uploads', 'public'),
                 'laporan_dan_lampiran' => $request->file('laporan_dan_lampiran')->store('audit/uploads', 'public'),
             ];
 
-            // Simpan ke database
+            if ($request->hasFile('pka')) {
+                $filePaths['pka'] = $request->file('pka')->store('audit/uploads', 'public');
+            }
+
             Audit::create([
                 'code' => $request->nomorLaporan,
                 'date' => $request->tanggal,
                 'divisi' => $request->divisi,
-                'title' => $request->judul,
                 'activity' => $request->bentuk_kegiatan,
                 'member' => $member ? json_encode($member) : null,
             ] + $filePaths);
@@ -86,34 +76,51 @@ class LaporanHasilAuditController extends Controller
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
         }
     }
-    /**
-     * Display the specified resource.
-     */
+
+    public function halamanIsiPKPT()
+    {
+        $data = Audit::paginate(5);
+        return view('Dashboard.halaman-isi-pkpt', compact('data'));
+    }
+
+
+
+    public function uploadPka(Request $request, $id)
+    {
+        $request->validate([
+            'pka' => 'required|file|mimes:pdf',
+        ]);
+
+        $audit = Audit::findOrFail($id);
+        $filePath = $request->file('pka')->store('audit/uploads', 'public');
+        $audit->update(['pka' => $filePath]);
+
+        return redirect()->back()->with('success', 'File PKPT berhasil diupload!');
+    }
+
+
+
+
     public function show(string $id)
     {
         $data = Audit::find($id);
         return response()->json(['data' => $data], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
         $data = Audit::find($id);
         return view('Dashboard.form-hasil-audit', compact('data'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
             'nomorLaporan' => 'required|unique:audits,code,' . $id,
             'tanggal' => 'required|date',
             'divisi' => 'required|string',
-            'judul' => 'required|string',
             'surat_tugas' => 'nullable|file|mimes:pdf',
             'nota_dinas' => 'nullable|file|mimes:pdf',
             'bentuk_kegiatan' => 'required|string',
@@ -133,7 +140,6 @@ class LaporanHasilAuditController extends Controller
                 'code' => $request->nomorLaporan,
                 'date' => $request->tanggal,
                 'divisi' => $request->divisi,
-                'title' => $request->judul,
                 'activity' => $request->bentuk_kegiatan,
                 'member' => !$member ? NULL : json_encode($member),
             ];
@@ -156,10 +162,6 @@ class LaporanHasilAuditController extends Controller
             return redirect()->back()->with('error', $th->getMessage());
         }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request)
     {
         $data = Audit::find($request->dataId);

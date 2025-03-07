@@ -343,15 +343,11 @@
                                     <td >${response.data.date}</td>
                                 </tr>
                                 <tr>
-                                    <th>Divisi / Unit</th>
+                                    <th>Unit</th>
                                     <th class="text-center">:</th>
                                     <td >${response.data.divisi}</td>
                                 </tr>
-                                <tr>
-                                    <th>Judul LHA</th>
-                                    <th class="text-center">:</th>
-                                    <td >${response.data.title}</td>
-                                </tr>
+
 
                                 <tr>
                                     <th>Surat Tugas</th>

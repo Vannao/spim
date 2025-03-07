@@ -29,9 +29,20 @@
                 </div>
 
                 @php
-                    $rekomendasiSesuai = App\Models\Recomended::where('kesesuaian', 'sesuai')->count();
-                    $rekomendasiTidakSesuai = App\Models\Recomended::where('kesesuaian', 'tidak sesuai')->count();
+                    // Data Tindak Lanjut
+                    $statusTL1 = App\Models\TindakLanjut::where('status_tl', 'Tindak Lanjut Tidak Sesuai')->count();
+                    $statusTL2 = App\Models\TindakLanjut::where('status_tl', 'Sudah Tindak Lanjut')->count();
+                    $statusTL3 = App\Models\TindakLanjut::where('status_tl', 'Belum Tindak Lanjut')->count();
 
+                    // Data Tindak Lanjut berdasarkan tahun
+                    $dataTindakLanjut = App\Models\TindakLanjut::selectRaw(
+                        'YEAR(created_at) as tahun, status_tl, COUNT(*) as jumlah',
+                    )
+                        ->groupBy('tahun', 'status_tl')
+                        ->get()
+                        ->groupBy('tahun');
+
+                    // Data lainnya
                     $auditCountStatus1 = App\Models\Recomended::where('status', 1)->count();
                     $auditCountStatus2 = App\Models\Recomended::where('status', 2)->count();
                     $auditCountStatus3 = App\Models\Recomended::where('status', 3)->count();
@@ -42,17 +53,8 @@
                         ->get()
                         ->groupBy('tahun');
 
-                    // Hitung PKA dan Surat Tugas berdasarkan tahun
                     $hitungPKA = App\Models\Audit::whereNotNull('pka')->count();
                     $hitungSurat = App\Models\Audit::whereNotNull('file_surat_tugas')->count();
-
-                    // Data kesesuaian berdasarkan tahun untuk chart baru
-                    $dataKesesuaian = App\Models\Recomended::selectRaw(
-                        'YEAR(created_at) as tahun, kesesuaian, COUNT(*) as jumlah',
-                    )
-                        ->groupBy('tahun', 'kesesuaian')
-                        ->get()
-                        ->groupBy('tahun');
                 @endphp
 
                 <script>
@@ -71,19 +73,24 @@
                         closedByYear: {!! json_encode(
                             App\Models\Recomended::where('status', 3)->selectRaw('YEAR(created_at) as tahun, COUNT(*) as jumlah')->groupBy('tahun')->get()->keyBy('tahun'),
                         ) !!},
-                        kesesuaianData: {!! json_encode($dataKesesuaian) !!},
-                        rekomendasiSesuai: {{ $rekomendasiSesuai }},
-                        rekomendasiTidakSesuai: {{ $rekomendasiTidakSesuai }},
-                        rekomendasiSesuaiByYear: {!! json_encode(
-                            App\Models\Recomended::where('kesesuaian', 'sesuai')->selectRaw('YEAR(created_at) as tahun, COUNT(*) as jumlah')->groupBy('tahun')->get()->keyBy('tahun'),
+                        statusTL1: {{ $statusTL1 }},
+                        statusTL2: {{ $statusTL2 }},
+                        statusTL3: {{ $statusTL3 }},
+                        dataTindakLanjut: {!! json_encode($dataTindakLanjut) !!},
+                        statusTL1ByYear: {!! json_encode(
+                            App\Models\TindakLanjut::where('status_tl', 'Tindak Lanjut Tidak Sesuai')->selectRaw('YEAR(created_at) as tahun, COUNT(*) as jumlah')->groupBy('tahun')->get()->keyBy('tahun'),
                         ) !!},
-                        rekomendasiTidakSesuaiByYear: {!! json_encode(
-                            App\Models\Recomended::where('kesesuaian', 'tidak sesuai')->selectRaw('YEAR(created_at) as tahun, COUNT(*) as jumlah')->groupBy('tahun')->get()->keyBy('tahun'),
+                        statusTL2ByYear: {!! json_encode(
+                            App\Models\TindakLanjut::where('status_tl', 'Sudah Tindak Lanjut')->selectRaw('YEAR(created_at) as tahun, COUNT(*) as jumlah')->groupBy('tahun')->get()->keyBy('tahun'),
+                        ) !!},
+                        statusTL3ByYear: {!! json_encode(
+                            App\Models\TindakLanjut::where('status_tl', 'Belum Tindak Lanjut')->selectRaw('YEAR(created_at) as tahun, COUNT(*) as jumlah')->groupBy('tahun')->get()->keyBy('tahun'),
                         ) !!}
                     };
                 </script>
 
                 <div class="row">
+                    <!-- Card untuk Laporan Hasil Audit -->
                     <div class="col-lg-3 col-md-6 col-sm-12 mb-1">
                         <div class="card text-center">
                             <div class="card-body">
@@ -94,16 +101,20 @@
                         </div>
                     </div>
 
+                    <!-- Card untuk PKPT -->
                     <div class="col-lg-3 col-md-6 col-sm-12 mb-1">
                         <div class="card text-center">
                             <div class="card-body">
-                                <i class="fa fa-clipboard font-large-2 blue"></i>
-                                <h3 class="mt-2" id="hitungPKA">{{ $hitungPKA }}</h3>
-                                <p class="text-muted">PKPT</p>
+                                <a href="/halaman-isi-pkpt">
+                                    <i class="fa fa-clipboard font-large-2 blue"></i>
+                                    <h3 class="mt-2" id="hitungPKA">{{ $hitungPKA }}</h3>
+                                    <p class="text-muted">PKPT</p>
+                                </a>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Card untuk Surat Tugas -->
                     <div class="col-lg-3 col-md-6 col-sm-12 mb-1">
                         <div class="card text-center">
                             <div class="card-body">
@@ -114,6 +125,7 @@
                         </div>
                     </div>
 
+                    <!-- Card untuk Terbuka (Rekomendasi) -->
                     <div class="col-lg-3 col-md-6 col-sm-12 mb-1">
                         <div class="card text-center">
                             <div class="card-body">
@@ -126,6 +138,7 @@
                 </div>
 
                 <div class="row">
+                    <!-- Card untuk Progress (Rekomendasi) -->
                     <div class="col-lg-3 col-md-6 col-sm-12 mb-1">
                         <div class="card text-center">
                             <div class="card-body">
@@ -136,6 +149,7 @@
                         </div>
                     </div>
 
+                    <!-- Card untuk Closed (Rekomendasi) -->
                     <div class="col-lg-3 col-md-6 col-sm-12 mb-1">
                         <div class="card text-center">
                             <div class="card-body">
@@ -145,56 +159,41 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-lg-3 col-md-6 col-sm-12 mb-1">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <i class="fa fa-check-circle font-large-2 success"></i>
-                                <h3 class="mt-2" id="sesuaiCount">{{ $rekomendasiSesuai }}</h3>
-                                <p class="text-muted">Rekomendasi Sesuai</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 col-sm-12 mb-1">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <i class="fa fa-times-circle font-large-2 danger"></i>
-                                <h3 class="mt-2" id="tidakSesuaiCount">{{ $rekomendasiTidakSesuai }}</h3>
-                                <p class="text-muted">Rekomendasi Tidak Sesuai</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
 
                 <div class="row">
-                    <div class="col-lg-4 col-md-12">
+                    <!-- Chart untuk PKPT vs Surat Tugas -->
+                    <div class="col-lg-4 col-md-12 mb-2">
                         <div class="card">
                             <div class="card-content">
                                 <div class="card-body">
-                                    <h4 class="card-title">PKPT vs Surat Tugas vs Closed</h4>
+                                    <h4 class="card-title">PKPT vs Surat Tugas</h4>
                                     <canvas id="auditBarChart"></canvas>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-12">
+
+                    <!-- Chart untuk Total Temuan Masing-masing Unit -->
+                    <div class="col-lg-4 col-md-12 mb-2">
                         <div class="card">
                             <div class="card-content">
                                 <div class="card-body">
-                                    <h4 class="card-title">Distribusi Status Audit</h4>
+                                    <h4 class="card-title">Total Temuan Masing-masing Unit</h4>
                                     <canvas id="auditPieChart"></canvas>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-12">
+
+                    <!-- Chart untuk Status Tindak Lanjut -->
+                    <div class="col-lg-4 col-md-12 mb-2">
                         <div class="card">
                             <div class="card-content">
                                 <div class="card-body">
-                                    <h4 class="card-title">Kesesuaian Rekomendasi</h4>
-                                    <canvas id="kesesuaianPieChart"></canvas>
+                                    <h4 class="card-title">Status Tindak Lanjut</h4>
+                                    <canvas id="tindakLanjutPieChart"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -212,30 +211,165 @@
                 return values.map(value => ((value / total) * 100).toFixed(1));
             }
 
+            // Inisialisasi Chart 1: PKPT vs Surat Tugas
+            var ctxDataPie = document.getElementById("auditBarChart").getContext("2d");
+            var auditDataPieChart = new Chart(ctxDataPie, {
+                type: "pie",
+                data: {
+                    labels: ["PKPT", "Surat Tugas"],
+                    datasets: [{
+                        data: [auditData.hitungPKA, auditData.hitungSurat],
+                        backgroundColor: ["#9b59b6", "#1abc9c"],
+                        borderColor: "#ffffff",
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Inisialisasi Chart 2: Total Temuan Masing-masing Unit
+            var ctxStatusPie = document.getElementById("auditPieChart").getContext("2d");
+            var auditStatusPieChart = new Chart(ctxStatusPie, {
+                type: "pie",
+                data: {
+                    labels: ["Terbuka", "Progress", "Closed"],
+                    datasets: [{
+                        data: [
+                            auditData.tahunData ? Object.values(auditData.tahunData).flat()
+                            .filter(item => item.status === 1).reduce((sum, item) => sum + item
+                                .jumlah, 0) : 0,
+                            auditData.tahunData ? Object.values(auditData.tahunData).flat()
+                            .filter(item => item.status === 2).reduce((sum, item) => sum + item
+                                .jumlah, 0) : 0,
+                            auditData.tahunData ? Object.values(auditData.tahunData).flat()
+                            .filter(item => item.status === 3).reduce((sum, item) => sum + item
+                                .jumlah, 0) : 0
+                        ],
+                        backgroundColor: ["#2ecc71", "#f1c40f", "#e74c3c"]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Inisialisasi Chart 3: Status Tindak Lanjut
+            var ctxTindakLanjutPie = document.getElementById("tindakLanjutPieChart").getContext("2d");
+            var tindakLanjutPieChart = new Chart(ctxTindakLanjutPie, {
+                type: "pie",
+                data: {
+                    labels: ["Tidak Sesuai", "Sudah Tindak Lanjut", "Belum Tindak Lanjut"],
+                    datasets: [{
+                        data: [auditData.statusTL1, auditData.statusTL2, auditData.statusTL3],
+                        backgroundColor: ["#2c3e50", "#16a085", "#e67e22"]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Fungsi untuk update semua chart berdasarkan tahun
             function updateData(tahun) {
-                // Update status rekomendasi (Terbuka, Progress, Closed)
+                // Update Chart 1: PKPT vs Surat Tugas
+                let hitungPKA = 0,
+                    hitungSurat = 0;
+
+                if (tahun === "") {
+                    hitungPKA = auditData.hitungPKA;
+                    hitungSurat = auditData.hitungSurat;
+                } else {
+                    hitungPKA = auditData.hitungPKAByYear[tahun] ? auditData.hitungPKAByYear[tahun].jumlah : 0;
+                    hitungSurat = auditData.hitungSuratByYear[tahun] ? auditData.hitungSuratByYear[tahun].jumlah :
+                        0;
+                }
+
+                const pkaSuratPercentages = calculatePercentages([hitungPKA, hitungSurat]);
+                auditDataPieChart.data.datasets[0].data = [hitungPKA, hitungSurat];
+                auditDataPieChart.data.labels = [
+                    `PKPT (${pkaSuratPercentages[0]}%)`,
+                    `Surat Tugas (${pkaSuratPercentages[1]}%)`
+                ];
+                auditDataPieChart.update();
+
+                // Update Chart 2: Total Temuan Masing-masing Unit
                 let terbuka = 0,
                     progress = 0,
                     closed = 0;
 
-                // Update kesesuaian rekomendasi
-                let sesuai = 0,
-                    tidakSesuai = 0;
-
                 if (tahun === "") {
-                    // Jika semua tahun dipilih
-                    for (let key in auditData.tahunData) {
-                        auditData.tahunData[key].forEach(item => {
-                            if (item.status === 1) terbuka += item.jumlah;
-                            if (item.status === 2) progress += item.jumlah;
-                            if (item.status === 3) closed += item.jumlah;
-                        });
-                    }
-
-                    sesuai = auditData.rekomendasiSesuai;
-                    tidakSesuai = auditData.rekomendasiTidakSesuai;
+                    terbuka = auditData.tahunData ? Object.values(auditData.tahunData).flat().filter(item => item
+                        .status === 1).reduce((sum, item) => sum + item.jumlah, 0) : 0;
+                    progress = auditData.tahunData ? Object.values(auditData.tahunData).flat().filter(item => item
+                        .status === 2).reduce((sum, item) => sum + item.jumlah, 0) : 0;
+                    closed = auditData.tahunData ? Object.values(auditData.tahunData).flat().filter(item => item
+                        .status === 3).reduce((sum, item) => sum + item.jumlah, 0) : 0;
                 } else {
-                    // Jika tahun tertentu dipilih
                     if (auditData.tahunData[tahun]) {
                         auditData.tahunData[tahun].forEach(item => {
                             if (item.status === 1) terbuka += item.jumlah;
@@ -243,222 +377,41 @@
                             if (item.status === 3) closed += item.jumlah;
                         });
                     }
-
-                    // Data kesesuaian berdasarkan tahun tertentu
-                    sesuai = auditData.rekomendasiSesuaiByYear[tahun] ? auditData.rekomendasiSesuaiByYear[tahun]
-                        .jumlah : 0;
-                    tidakSesuai = auditData.rekomendasiTidakSesuaiByYear[tahun] ? auditData
-                        .rekomendasiTidakSesuaiByYear[tahun].jumlah : 0;
                 }
 
-                // Update tampilan status rekomendasi
-                document.getElementById("terbukaCount").innerText = terbuka;
-                document.getElementById("progressCount").innerText = progress;
-                document.getElementById("closedCount").innerText = closed;
-
-                // Update tampilan kesesuaian rekomendasi
-                document.getElementById("sesuaiCount").innerText = sesuai;
-                document.getElementById("tidakSesuaiCount").innerText = tidakSesuai;
-
-                // Update chart status rekomendasi
+                const temuanPercentages = calculatePercentages([terbuka, progress, closed]);
                 auditStatusPieChart.data.datasets[0].data = [terbuka, progress, closed];
-                // Update percentages for status pie chart
-                const statusPercentages = calculatePercentages([terbuka, progress, closed]);
                 auditStatusPieChart.data.labels = [
-                    `Terbuka (${statusPercentages[0]}%)`,
-                    `Progress (${statusPercentages[1]}%)`,
-                    `Closed (${statusPercentages[2]}%)`
+                    `Terbuka (${temuanPercentages[0]}%)`,
+                    `Progress (${temuanPercentages[1]}%)`,
+                    `Closed (${temuanPercentages[2]}%)`
                 ];
                 auditStatusPieChart.update();
 
-                // Update chart kesesuaian rekomendasi
-                kesesuaianPieChart.data.datasets[0].data = [sesuai, tidakSesuai];
-                // Update percentages for kesesuaian pie chart
-                const kesesuaianPercentages = calculatePercentages([sesuai, tidakSesuai]);
-                kesesuaianPieChart.data.labels = [
-                    `Sesuai (${kesesuaianPercentages[0]}%)`,
-                    `Tidak Sesuai (${kesesuaianPercentages[1]}%)`
-                ];
-                kesesuaianPieChart.update();
-
-                // Update hitungPKA, hitungSurat, dan closed berdasarkan tahun
-                let hitungPKA = 0;
-                let hitungSurat = 0;
-                let closedCount = 0;
+                // Update Chart 3: Status Tindak Lanjut
+                let statusTL1 = 0,
+                    statusTL2 = 0,
+                    statusTL3 = 0;
 
                 if (tahun === "") {
-                    hitungPKA = auditData.hitungPKA;
-                    hitungSurat = auditData.hitungSurat;
-                    closedCount = auditData.closedCount;
+                    statusTL1 = auditData.statusTL1;
+                    statusTL2 = auditData.statusTL2;
+                    statusTL3 = auditData.statusTL3;
                 } else {
-                    hitungPKA = auditData.hitungPKAByYear[tahun] ? auditData.hitungPKAByYear[tahun].jumlah : 0;
-                    hitungSurat = auditData.hitungSuratByYear[tahun] ? auditData.hitungSuratByYear[tahun].jumlah :
-                        0;
-                    closedCount = auditData.closedByYear[tahun] ? auditData.closedByYear[tahun].jumlah : 0;
+                    statusTL1 = auditData.statusTL1ByYear[tahun] ? auditData.statusTL1ByYear[tahun].jumlah : 0;
+                    statusTL2 = auditData.statusTL2ByYear[tahun] ? auditData.statusTL2ByYear[tahun].jumlah : 0;
+                    statusTL3 = auditData.statusTL3ByYear[tahun] ? auditData.statusTL3ByYear[tahun].jumlah : 0;
                 }
 
-                document.getElementById("hitungPKA").innerText = hitungPKA;
-                document.getElementById("hitungSurat").innerText = hitungSurat;
-
-                // Update PKPT vs Surat Tugas vs Closed chart
-                auditDataPieChart.data.datasets[0].data = [hitungPKA, hitungSurat, closedCount];
-                // Update percentages for audit data pie chart
-                const auditDataPercentages = calculatePercentages([hitungPKA, hitungSurat, closedCount]);
-                auditDataPieChart.data.labels = [
-                    `PKPT (${auditDataPercentages[0]}%)`,
-                    `Surat Tugas (${auditDataPercentages[1]}%)`,
-                    `Closed (${auditDataPercentages[2]}%)`
+                const tindakLanjutPercentages = calculatePercentages([statusTL1, statusTL2, statusTL3]);
+                tindakLanjutPieChart.data.datasets[0].data = [statusTL1, statusTL2, statusTL3];
+                tindakLanjutPieChart.data.labels = [
+                    `Tidak Sesuai (${tindakLanjutPercentages[0]}%)`,
+                    `Sudah Tindak Lanjut (${tindakLanjutPercentages[1]}%)`,
+                    `Belum Tindak Lanjut (${tindakLanjutPercentages[2]}%)`
                 ];
-                auditDataPieChart.update();
+                tindakLanjutPieChart.update();
             }
-
-            // Chart untuk PKPT vs Surat Tugas vs Closed
-            var ctxDataPie = document.getElementById("auditBarChart").getContext("2d");
-
-            // Calculate initial percentages for all three charts
-            const auditDataValues = [auditData.hitungPKA, auditData.hitungSurat, auditData.closedCount];
-            const auditDataPercentages = calculatePercentages(auditDataValues);
-
-            const statusValues = [
-                auditData.tahunData ? Object.values(auditData.tahunData).flat()
-                .filter(item => item.status === 1).reduce((sum, item) => sum + item.jumlah, 0) : 0,
-                auditData.tahunData ? Object.values(auditData.tahunData).flat()
-                .filter(item => item.status === 2).reduce((sum, item) => sum + item.jumlah, 0) : 0,
-                auditData.tahunData ? Object.values(auditData.tahunData).flat()
-                .filter(item => item.status === 3).reduce((sum, item) => sum + item.jumlah, 0) : 0
-            ];
-            const statusPercentages = calculatePercentages(statusValues);
-
-            const kesesuaianValues = [auditData.rekomendasiSesuai, auditData.rekomendasiTidakSesuai];
-            const kesesuaianPercentages = calculatePercentages(kesesuaianValues);
-
-            var auditDataPieChart = new Chart(ctxDataPie, {
-                type: "pie",
-                data: {
-                    labels: [
-                        `PKPT (${auditDataPercentages[0]}%)`,
-                        `Surat Tugas (${auditDataPercentages[1]}%)`,
-                        `Closed (${auditDataPercentages[2]}%)`
-                    ],
-                    datasets: [{
-                        data: auditDataValues,
-                        backgroundColor: ["#9b59b6", "#1abc9c", "#f39c12"],
-                        borderColor: "#ffffff",
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'bottom',
-                            labels: {
-                                usePointStyle: true,
-                                pointStyle: 'circle'
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Data Audit (Pie Chart)'
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.label || '';
-                                    const value = context.raw || 0;
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((value / total) * 100).toFixed(1);
-                                    return `${label}: ${value} (${percentage}%)`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Chart untuk Status Rekomendasi
-            var ctxStatusPie = document.getElementById("auditPieChart").getContext("2d");
-            var auditStatusPieChart = new Chart(ctxStatusPie, {
-                type: "pie",
-                data: {
-                    labels: [
-                        `Terbuka (${statusPercentages[0]}%)`,
-                        `Progress (${statusPercentages[1]}%)`,
-                        `Closed (${statusPercentages[2]}%)`
-                    ],
-                    datasets: [{
-                        data: statusValues,
-                        backgroundColor: ["#2ecc71", "#f1c40f", "#e74c3c"] // Green, yellow, red
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'bottom',
-                            labels: {
-                                usePointStyle: true,
-                                pointStyle: 'circle'
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.label || '';
-                                    const value = context.raw || 0;
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((value / total) * 100).toFixed(1);
-                                    return `${label}: ${value} (${percentage}%)`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Chart baru untuk Kesesuaian Rekomendasi
-            var ctxKesesuaianPie = document.getElementById("kesesuaianPieChart").getContext("2d");
-            var kesesuaianPieChart = new Chart(ctxKesesuaianPie, {
-                type: "pie",
-                data: {
-                    labels: [
-                        `Sesuai (${kesesuaianPercentages[0]}%)`,
-                        `Tidak Sesuai (${kesesuaianPercentages[1]}%)`
-                    ],
-                    datasets: [{
-                        data: kesesuaianValues,
-                        backgroundColor: ["#3498db", "#e67e22"], // Blue, orange
-                        borderColor: "#ffffff",
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'bottom',
-                            labels: {
-                                usePointStyle: true,
-                                pointStyle: 'circle'
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.label || '';
-                                    const value = context.raw || 0;
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((value / total) * 100).toFixed(1);
-                                    return `${label}: ${value} (${percentage}%)`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
 
             // Event listener untuk filter tahun
             document.getElementById("filterTahun").addEventListener("change", function() {

@@ -1,61 +1,9 @@
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
+<html lang="en">
 
 <head>
     @include('Template.head')
-    <title>SPI Navigator - Tindak Lanjut Hasil Audit</title>
-    <style>
-        .form-container {
-            display: none;
-            margin-top: 20px;
-        }
-
-        .table td,
-        .table th {
-            word-wrap: break-word;
-            white-space: normal;
-            max-width: 200px;
-        }
-
-        .badge {
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .badge-success {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .badge-warning {
-            background-color: #ffc107;
-            color: black;
-        }
-
-        .badge-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .pagination {
-            margin: 0;
-        }
-
-        .page-item.active .page-link {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-        .page-link {
-            color: #007bff;
-        }
-
-        .page-link:hover {
-            color: #0056b3;
-        }
-    </style>
+    <title>Tambah Tindak Lanjut</title>
 </head>
 
 <body class="vertical-layout vertical-menu 2-columns menu-expanded fixed-navbar" data-open="click"
@@ -73,121 +21,110 @@
         <div class="content-wrapper">
             <div class="content-header row">
                 <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
-                    <h3 class="content-header-title mb-0 d-inline-block">Monitoring Tindak Lanjut</h3>
+                    <h3 class="content-header-title mb-0 d-inline-block">Tambah Tindak Lanjut</h3>
                     <div class="row breadcrumbs-top d-inline-block">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a>
+                                <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('rekomendasi.index') }}">Rekomendasi</a>
                                 </li>
-                                <li class="breadcrumb-item active">Monitoring Tindak Lanjut
-                                </li>
+                                <li class="breadcrumb-item active">Tambah Tindak Lanjut</li>
                             </ol>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="content-body">
-
-
-                <section id="dom">
+                <section id="form-action-layouts">
                     <div class="row">
-                        <div class="col-12">
+                        <!-- Tabel di kiri -->
+                        <div class="col-md-6">
                             <div class="card">
-                                <div class="card-content collapse show">
-                                    <div class="card-body card-dashboard">
-                                        @if (Session::get('success'))
-                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                                {{ Session::get('success') }}
-                                                <button type="button" class="close" data-dismiss="alert"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                        @endif
-
-                                        @if (Session::get('error'))
-                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                                {{ Session::get('danger') }}
-                                                <button type="button" class="close" data-dismiss="alert"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                        @endif
-
-                                        <!-- Filter Divisi -->
-                                        <form action="{{ route('tindak-lanjut.index') }}" method="GET">
-                                            <div class="row mb-3">
-                                                <div class="col-md-3">
-                                                    <label for="filterDivisi">Filter Divisi:</label>
-                                                    <select name="divisi" class="form-control input-lg pl-4" required>
-                                                        <option value="" disabled selected>Pilih Divisi</option>
-                                                        <option value="Sekretariat">Sekretariat</option>
-                                                        <option value="Manager Management Proyek TPK">Manager Management
-                                                            Proyek TPK</option>
-                                                        <option value="GM Terminal Peti Kemas">GM Terminal Peti Kemas
-                                                        </option>
-                                                        <option value="GM Operasi & Pemasaran">GM Operasi & Pemasaran
-                                                        </option>
-                                                        <option value="GM Keuangan & Risk Management">GM Keuangan & Risk
-                                                            Management</option>
-                                                        <option value="GM SDM & Umum">GM SDM & Umum</option>
-                                                        <option value="Kepala Satuan Pengawas Internal">Kepala Satuan
-                                                            Pengawas Internal</option>
-                                                    </select>
-
-                                                </div>
-                                                <div class="col-md-3 align-self-end">
-                                                    <button type="submit" class="btn btn-primary">Filter</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                        <div class="table-responsive">
-                                            <table class="table table-striped table-bordered">
-                                                <thead class="thead-dark">
+                                <div class="card-header">
+                                    <h4 class="mb-0">Daftar Tindak Lanjut</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered text-center">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>ID Rekomendasi</th>
+                                                    <th>Catatan TL</th>
+                                                    <th>Status TL</th>
+                                                    <th>Batas Waktu</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($tindakLanjuts as $index => $tl)
                                                     <tr>
-                                                        <th>ID</th>
-                                                        <th>Judul Rekomendasi</th>
-                                                        <th>Status</th>
-                                                        <th>Audit Terkait</th>
-                                                        <th>Tanggal Audit</th>
-                                                        <th>Ubah Status</th>
+                                                        <td>{{ $index + 1 }}</td>
+                                                        <td>{{ $tl->id_recomendeds }}</td>
+                                                        <td>{{ $tl->catatan_tl }}</td>
+                                                        <td>
+                                                            <span
+                                                                class="badge {{ $tl->status_tl == 'Belum Tindak Lanjut' ? 'badge-danger' : ($tl->status_tl == 'Sudah Tindak Lanjut' ? 'badge-success' : 'badge-warning') }}">
+                                                                {{ $tl->status_tl }}
+                                                            </span>
+                                                        </td>
+                                                        <td>{{ \Carbon\Carbon::parse($tl->batas_waktu)->format('d-m-Y') }}
+                                                        </td>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($recomendeds as $recomended)
-                                                        <tr>
-                                                            <td>{{ $recomended->id }}</td>
-                                                            <td>{{ $recomended->title }}</td>
-                                                            <td>
-                                                                @if ($recomended->status == 1)
-                                                                    <span class="badge badge-success">Terbuka</span>
-                                                                @elseif ($recomended->status == 2)
-                                                                    <span class="badge badge-warning">On Progress</span>
-                                                                @else
-                                                                    <span class="badge badge-secondary">Unknown</span>
-                                                                @endif
-                                                            </td>
-                                                            <td>{{ $recomended->audit->title ?? 'Tidak Ada Audit' }}
-                                                            </td>
-                                                            <td>{{ $recomended->audit->date ?? '-' }}</td>
-                                                            <td>
-                                                                <a href="{{ route('halamanUpdateRecomendeds', $recomended->id) }}"
-                                                                    class="btn btn-sm btn-primary">
-                                                                    Ubah Status
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form di kanan -->
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="mb-0">Form Tambah Tindak Lanjut</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form action="{{ route('tl.store') }}" method="POST">
+                                        @csrf
+
+                                        <input type="hidden" name="id_recomendeds" value="{{ $recomended->id }}">
+
+                                        <div class="form-group">
+                                            <label for="judul_rekomendasi">Judul Rekomendasi:</label>
+                                            <input type="text" class="form-control" id="judul_rekomendasi"
+                                                value="{{ $recomended->title }}" readonly>
                                         </div>
 
-                                        <!-- Paginasi -->
-                                        <div class="pagination-container">
-                                            {{ $recomendeds->links('pagination::bootstrap-5') }}
+                                        <div class="form-group">
+                                            <label for="catatan_tl">Catatan Tindak Lanjut:</label>
+                                            <textarea name="catatan_tl" id="catatan_tl" class="form-control" rows="3" required></textarea>
                                         </div>
-                                    </div>
+
+                                        <div class="form-group">
+                                            <label for="status_tl">Status:</label>
+                                            <select name="status_tl" id="status_tl" class="form-control" required>
+                                                <option value="" disabled selected>Pilih Status</option>
+                                                <option value="Sudah Tindak Lanjut">Sudah Tindak Lanjut</option>
+                                                <option value="Belum Tindak Lanjut">Belum Tindak Lanjut</option>
+                                                <option value="Tindak Lanjut Tidak Sesuai">Tindak Lanjut Tidak Sesuai
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="batas_waktu">Batas Waktu:</label>
+                                            <input type="date" name="batas_waktu" id="batas_waktu"
+                                                class="form-control" required>
+                                        </div>
+
+                                        <div class="text-right">
+                                            <button type="submit" class="btn btn-success">Simpan</button>
+                                            <a href="{{ route('rekomendasi.index') }}"
+                                                class="btn btn-secondary">Batal</a>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

@@ -19,4 +19,9 @@ class Recomended extends Model
     {
         return $this->belongsTo(Audit::class, 'audit_id');
     }
+
+    public function tindakLanjut()
+    {
+        return $this->hasMany(TindakLanjut::class, 'id_recomendeds', 'id');
+    }
 }

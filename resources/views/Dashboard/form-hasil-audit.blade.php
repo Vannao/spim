@@ -113,12 +113,12 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <fieldset class="form-group floating-label-form-group">
-                                                    <label for="divisi">Divisi/Unit</label>
+                                                    <label for="divisi">Unit</label>
                                                     <div class="position-relative has-icon-left">
                                                         <select id="divisi" name="divisi"
                                                             class="form-control input-lg pl-4 @error('divisi') is-invalid @enderror"
                                                             required>
-                                                            <option value="" disabled selected>Pilih Divisi
+                                                            <option value="" disabled selected>Pilih Unit
                                                             </option>
                                                             <option value="Sekretariat"
                                                                 {{ old('divisi', $data->divisi ?? '') == 'Sekretariat' ? 'selected' : '' }}>
@@ -149,7 +149,7 @@
                                                 </fieldset>
                                             </div>
 
-                                            <div class="col-md-3">
+                                            {{-- <div class="col-md-3">
                                                 <fieldset class="form-group floating-label-form-group">
                                                     <label for="judul">Judul Laporan Hasil Audit</label>
                                                     <div class="position-relative has-icon-left">
@@ -162,7 +162,7 @@
                                                         </div>
                                                     </div>
                                                 </fieldset>
-                                            </div>
+                                            </div> --}}
                                             {{-- <div class="col-md-3">
                                                 <fieldset class="form-group floating-label-form-group">
                                                     <label for="bentuk_kegiatan">Bentuk Kegiatan Audit</label>
@@ -233,7 +233,7 @@
                                                 </fieldset>
                                             </div>
 
-
+                                            {{--
                                             <div class="col-md-3">
                                                 <fieldset class="form-group floating-label-form-group">
                                                     <label for="surat_tugas">Program Kerja
@@ -250,7 +250,7 @@
                                                         </div>
                                                     </div>
                                                 </fieldset>
-                                            </div>
+                                            </div> --}}
 
 
 

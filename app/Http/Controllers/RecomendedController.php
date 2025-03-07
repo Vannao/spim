@@ -36,7 +36,7 @@ class RecomendedController extends Controller
 
         // $divisis = Audit::distinct()->pluck('divisi');
 
-        return view('Tindak-Lanjut.tindak-lanjut', [
+        return view('Tindak-Lanjut.rekomendasi', [
             'recomendeds' => $recomendeds,
             // 'divisis' => $divisis
         ]);

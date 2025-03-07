@@ -8,6 +8,8 @@ use App\Http\Controllers\HalPerluDiperhatikanController;
 use App\Http\Controllers\RecomendedController;
 use App\Http\Controllers\TindakLanjutController;
 use App\Http\Controllers\LaporanController;
+use App\Models\TindakLanjut;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,6 +44,9 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/halaman-isi-pkpt', [LaporanHasilAuditController::class, 'halamanIsiPKPT']);
+    Route::post('/upload-pka/{id}', [LaporanHasilAuditController::class, 'uploadPka'])->name('upload.pka');
+
     Route::view('/dashboard', 'Dashboard/dashboard')->name('dashboard');
     Route::get('/tambah-pengguna', function () {
         return view('Super-Admin.tambah-pengguna');
@@ -93,7 +98,12 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('rekomendasi/destroy', [RecomendedController::class, 'destroy'])->name('rekomendasi.destroy');
     });
 
-    Route::get('tindak-lanjut', [RecomendedController::class, 'tampilTable'])->name('tindak-lanjut.index');
+    Route::get('rekomendasi', [RecomendedController::class, 'tampilTable'])->name('rekomendasi.index');
+    Route::get('tl/{id}', [TindakLanjutController::class, 'create'])->name('halamanIsiTL');
+    Route::post('tl/store', [TindakLanjutController::class, 'store'])->name('tl.store');
+    Route::get('/tindak-lanjut', [TindakLanjutController::class, 'tampilTL'])->name('tindakLanjut.index');
+
+
     Route::get('ubah-status-tl/{id}', [RecomendedController::class, 'halamanUpdateRecomendeds'])->name('halamanUpdateRecomendeds');
     Route::put('ubah-status-tl/{id}', [RecomendedController::class, 'updateRecomendeds'])->name('updateRecomendeds');
     Route::get('tindak-lanjut/{recomended}/show', [TindakLanjutController::class, 'show'])->name('tindak-lanjut.show');
