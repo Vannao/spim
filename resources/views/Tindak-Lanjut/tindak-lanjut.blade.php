@@ -74,6 +74,10 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                        <div class="d-flex justify-content-center">
+                                            {{ $tindakLanjuts->links() }}
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>

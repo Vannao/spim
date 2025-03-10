@@ -21,8 +21,8 @@
                                 Laporan Hasil Audit</a></li>
                         <li><a class="menu-item" href="{{ route('rekomendasi.index') }}"><i
                                     class="fa fa-check-circle"></i> Rekomendasi</a></li>
-                        <li><a class="menu-item" href="{{ route('tindakLanjut.index') }}"><i class="fa fa-tasks"></i>
-                                Monitoring TL</a></li>
+                        {{-- <li><a class="menu-item" href="{{ route('tindakLanjut.index') }}"><i class="fa fa-tasks"></i>
+                                Monitoring TL</a></li> --}}
                     </ul>
                 </li>
             </ul>
@@ -38,8 +38,8 @@
                         Audit</a></li>
                 <li><a class="menu-item" href="{{ route('rekomendasi.index') }}"><i class="fa fa-tasks"></i> Tindak
                         Lanjut</a></li>
-                <li><a class="menu-item" href="{{ route('tindakLanjut.index') }}"><i class="fa fa-tasks"></i>
-                        Monitoring TL</a></li>
+                {{-- <li><a class="menu-item" href="{{ route('tindakLanjut.index') }}"><i class="fa fa-tasks"></i>
+                        Monitoring TL</a></li> --}}
             </ul>
         </div>
     </div>

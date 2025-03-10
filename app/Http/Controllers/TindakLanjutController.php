@@ -52,7 +52,7 @@ class TindakLanjutController extends Controller
     public function create($id)
     {
         $recomended = Recomended::findOrFail($id);
-        $tindakLanjuts = TindakLanjut::where('id_recomendeds', $id)->get();
+        $tindakLanjuts = TindakLanjut::where('id_recomendeds', $id)->paginate(2);
 
         return view('Tindak-Lanjut.tindak-lanjut', compact('recomended', 'tindakLanjuts'));
     }
