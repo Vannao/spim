@@ -69,7 +69,8 @@
                                                                     <div class="custom-file">
                                                                         <input type="file" name="pka"
                                                                             class="custom-file-input"
-                                                                            id="fileInput{{ $audit->id }}" required>
+                                                                            id="fileInput{{ $audit->id }}" required
+                                                                            onchange="updateFileName(this)">
                                                                         <label class="custom-file-label"
                                                                             for="fileInput{{ $audit->id }}">Pilih
                                                                             File...</label>
@@ -104,6 +105,16 @@
 
     @include('Template.footer')
     @include('Template.js')
+
+    <script>
+        function updateFileName(input) {
+            if (input.files.length > 0) {
+                let fileName = input.files[0].name;
+                let label = input.nextElementSibling;
+                label.innerText = fileName;
+            }
+        }
+    </script>
 
 </body>
 

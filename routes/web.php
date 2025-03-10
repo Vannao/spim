@@ -44,8 +44,11 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/data/laporan-hasil-audit', [LaporanHasilAuditTable::class, 'ajaxData'])->name('data.laporan-hasil-audit');
+
     Route::get('/halaman-isi-pkpt', [LaporanHasilAuditController::class, 'halamanIsiPKPT']);
     Route::post('/upload-pka/{id}', [LaporanHasilAuditController::class, 'uploadPka'])->name('upload.pka');
+    Route::get('/dashboard', [AuthController::class, 'index'])->name('dashboard');
 
     Route::view('/dashboard', 'Dashboard/dashboard')->name('dashboard');
     Route::get('/tambah-pengguna', function () {

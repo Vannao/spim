@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\DataTables\LaporanHasilAuditTable;
 
 class AuthController extends Controller
 {
@@ -19,10 +20,16 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('dashboard');
+            $user = Auth::user();
+
+            if ($user->role == 'Super Admin' || $user->role == 'Admin') {
+                return redirect()->route('dashboard');
+            } elseif ($user->role == 'User') {
+                return redirect()->route('rekomendasi.index');
+            }
         }
 
-        return redirect('login')->withErrors('Login details are not valid');
+        return back()->withErrors(['email' => 'Email atau password salah']);
     }
 
     public function showRegisterForm()

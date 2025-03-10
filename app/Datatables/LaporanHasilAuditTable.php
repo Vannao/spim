@@ -58,6 +58,8 @@ class LaporanHasilAuditTable extends DataTable
         return $model->newQuery();
     }
 
+
+
     /**
      * Optional method if you want to use the html builder.
      */
@@ -108,5 +110,11 @@ class LaporanHasilAuditTable extends DataTable
     protected function filename(): string
     {
         return 'Laporan Hasil Audit_' . date('YmdHis');
+    }
+
+
+    public function ajaxData()
+    {
+        return $this->dataTable($this->query(new Audit()))->toJson();
     }
 }

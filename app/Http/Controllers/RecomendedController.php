@@ -32,13 +32,11 @@ class RecomendedController extends Controller
                     $q->where('divisi', $divisi);
                 });
             })
-            ->paginate(5); // Menampilkan 10 data per halaman
+            ->paginate(5);
 
-        // $divisis = Audit::distinct()->pluck('divisi');
 
         return view('Tindak-Lanjut.rekomendasi', [
             'recomendeds' => $recomendeds,
-            // 'divisis' => $divisis
         ]);
     }
 
