@@ -17,6 +17,6 @@ class TindakLanjut extends Model
     ];
     public function recomended()
     {
-        return $this->belongsTo(Recomended::class, 'id_recomendeds', 'id');
+        return $this->belongsTo(Recomended::class, 'id_recomendeds');
     }
 }

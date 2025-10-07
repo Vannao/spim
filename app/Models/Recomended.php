@@ -12,11 +12,15 @@ class Recomended extends Model
     protected $table = 'recomendeds';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['audit_id', 'title', 'status', 'closed_file_surat', 'kesesuaian'];
+    protected $fillable = ['audit_id', 'title', 'status', 'closed_file_surat', 'batas_waktu', 'pic'];
 
-    // Relasi ke model Audit (many-to-one)
-    public function audit()
+    public function temuan()
     {
-        return $this->belongsTo(Audit::class, 'audit_id');
+        return $this->belongsTo(Temuan::class, 'id_temuan');
+    }
+
+    public function tindakLanjut()
+    {
+        return $this->hasMany(TindakLanjut::class, 'id_recomendeds');
     }
 }

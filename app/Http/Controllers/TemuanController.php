@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Enums\Akibat;
+use App\Models\Temuan;
+use App\Models\Finding;
+use App\Enums\JenisTemuan;
 use Illuminate\Http\Request;
 use App\DataTables\TemuanTable;
 use Illuminate\Support\Facades\DB;
-use App\Models\Finding;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
-use App\Enums\JenisTemuan;
-use App\Enums\Akibat;
 
 class TemuanController extends Controller
 {
@@ -20,6 +21,17 @@ class TemuanController extends Controller
     public function index(TemuanTable $dataTable, $auditId)
     {
         return $dataTable->render('Dashboard.Temuan.temuan', ['auditId' => $auditId]);
+    }
+
+
+    public function tampilTable(Request $request)
+    {
+        $recomendeds = Temuan::with('audit')->paginate(5);
+
+
+        return view('Tindak-Lanjut.rekomendasi', [
+            'recomendeds' => $recomendeds,
+        ]);
     }
 
     /**

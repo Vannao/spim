@@ -113,19 +113,32 @@
                                                     </div>
                                                 </fieldset>
                                             </div>
+                                            <div class="col-md-6">
+                                                <fieldset class="form-group floating-label-form-group">
+                                                    <label for="pic">PIC</label>
+                                                    <div class="position-relative has-icon-left">
+                                                        <input type="text" id="pic"
+                                                            class="form-control @error('pic') is-invalid @enderror"
+                                                            placeholder="Rekomendasi" name="pic"
+                                                            value="{{ old('pic', $data->pic ?? '') }}">
+                                                        <div class="form-control-position">
+                                                            <i class="fa fa-suitcase"></i>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
                                             <div class="col-md-3">
                                                 <fieldset class="form-group floating-label-form-group">
-                                                    <label for="kesesuaian">Kesesuaian</label>
+                                                    <label for="batas_waktu">Batas Waktu</label>
                                                     <div class="position-relative has-icon-left">
-                                                        <select id="kesesuaian" name="kesesuaian"
-                                                            class="form-control @error('kesesuaian') is-invalid @enderror">
-                                                            <option value="">-- Pilih Kesesuaian --</option>
-                                                            <option value="sesuai">Sesuai</option>
-                                                            <option value="tidak sesuai"> Tidak Sesuai </option>
-                                                        </select>
+                                                        <input type="date" id="batas_waktu" name="batas_waktu"
+                                                            class="form-control @error('batas_waktu') is-invalid @enderror">
                                                         <div class="form-control-position">
-                                                            <i class="fa fa-exclamation-circle"></i>
+                                                            <i class="fa fa-calendar"></i>
                                                         </div>
+                                                        @error('batas_waktu')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </fieldset>
                                             </div>

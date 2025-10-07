@@ -49,8 +49,8 @@ class Audit extends Model
         return $this->hasMany(Notice::class, 'audit_id');
     }
 
-    public function recomendeds()
+    public function temuan()
     {
-        return $this->hasMany(Recomended::class, 'audit_id');
+        return $this->hasMany(Temuan::class, 'id_audit');
     }
 }

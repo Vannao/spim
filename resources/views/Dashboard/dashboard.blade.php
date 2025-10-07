@@ -53,7 +53,7 @@
                         ->get()
                         ->groupBy('tahun');
 
-                    $hitungPKA = App\Models\Audit::whereNotNull('pka')->count();
+                    $hitungPKA = App\Models\Pkpt::whereNotNull('id_pkpt')->count();
                     $hitungSurat = App\Models\Audit::whereNotNull('file_surat_tugas')->count();
                 @endphp
 
@@ -65,7 +65,7 @@
                         hitungSurat: {{ $hitungSurat }},
                         closedCount: {{ $auditCountStatus3 }},
                         hitungPKAByYear: {!! json_encode(
-                            App\Models\Audit::whereNotNull('pka')->selectRaw('YEAR(created_at) as tahun, COUNT(*) as jumlah')->groupBy('tahun')->get()->keyBy('tahun'),
+                            App\Models\Pkpt::whereNotNull('id_pkpt')->selectRaw('YEAR(created_at) as tahun, COUNT(*) as jumlah')->groupBy('tahun')->get()->keyBy('tahun'),
                         ) !!},
                         hitungSuratByYear: {!! json_encode(
                             App\Models\Audit::whereNotNull('file_surat_tugas')->selectRaw('YEAR(created_at) as tahun, COUNT(*) as jumlah')->groupBy('tahun')->get()->keyBy('tahun'),
@@ -105,7 +105,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-12 mb-1">
                         <div class="card text-center">
                             <div class="card-body">
-                                <a href="/halaman-isi-pkpt">
+                                <a href="/halaman-pkpt">
                                     <i class="fa fa-clipboard font-large-2 blue"></i>
                                     <h3 class="mt-2" id="hitungPKA">{{ $hitungPKA }}</h3>
                                     <p class="text-muted">PKPT</p>

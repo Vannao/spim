@@ -8,6 +8,7 @@ use App\Http\Controllers\HalPerluDiperhatikanController;
 use App\Http\Controllers\RecomendedController;
 use App\Http\Controllers\TindakLanjutController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\PkptController;
 use App\Models\TindakLanjut;
 
 /*
@@ -44,11 +45,9 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/data/laporan-hasil-audit', [LaporanHasilAuditTable::class, 'ajaxData'])->name('data.laporan-hasil-audit');
-
-    Route::get('/halaman-isi-pkpt', [LaporanHasilAuditController::class, 'halamanIsiPKPT']);
-    Route::post('/upload-pka/{id}', [LaporanHasilAuditController::class, 'uploadPka'])->name('upload.pka');
-    Route::get('/dashboard', [AuthController::class, 'index'])->name('dashboard');
+    Route::get('/halaman-pkpt', [PkptController::class, 'halamanTampilPKPT'])->name('halaman-pkpt');
+    Route::post('/isi-pkpt', [PkptController::class, 'isiPKPT'])->name('isi-pka');
+    Route::get('/pkpt', [PkptController::class, 'halamanTampilPKPT'])->name('halaman-tampil-pkpt');
 
     Route::view('/dashboard', 'Dashboard/dashboard')->name('dashboard');
     Route::get('/tambah-pengguna', function () {
@@ -68,6 +67,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('audit')->name('audit.')->group(function () {
         Route::get('laporan-hasil-audit', [LaporanHasilAuditController::class, 'index'])->name('index');
 
+        Route::get('/audit/{id}', [LaporanHasilAuditController::class, 'getAuditDetail'])->name('audit.detail');
 
         Route::get('laporan-hasil-audit/{id}/show', [LaporanHasilAuditController::class, 'show'])->name('show');
         Route::get('laporan-hasil-audit/{id}/edit', [LaporanHasilAuditController::class, 'edit'])->name('edit');

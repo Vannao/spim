@@ -23,6 +23,8 @@ class LaporanHasilAuditController extends Controller
     }
 
 
+
+
     public function create()
     {
         return view('Dashboard.form-hasil-audit');
@@ -38,7 +40,6 @@ class LaporanHasilAuditController extends Controller
             'nota_dinas' => 'required|file|mimes:pdf',
             'bentuk_kegiatan' => 'nullable|string',
             'berita_acara_exit_meeting' => 'required|file|mimes:pdf',
-            'pka' => 'nullable|file|mimes:pdf',
             'laporan_dan_lampiran' => 'required|file|mimes:pdf',
             'anggota' => 'nullable|array',
             'anggota.*.anggota' => 'nullable|string'
@@ -57,9 +58,7 @@ class LaporanHasilAuditController extends Controller
                 'laporan_dan_lampiran' => $request->file('laporan_dan_lampiran')->store('audit/uploads', 'public'),
             ];
 
-            if ($request->hasFile('pka')) {
-                $filePaths['pka'] = $request->file('pka')->store('audit/uploads', 'public');
-            }
+
 
             Audit::create([
                 'code' => $request->nomorLaporan,

@@ -111,10 +111,4 @@ class LaporanHasilAuditTable extends DataTable
     {
         return 'Laporan Hasil Audit_' . date('YmdHis');
     }
-
-
-    public function ajaxData()
-    {
-        return $this->dataTable($this->query(new Audit()))->toJson();
-    }
 }

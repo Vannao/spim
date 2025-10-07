@@ -20,7 +20,7 @@
                         <li><a class="menu-item" href="{{ route('audit.index') }}"><i class="fa fa-file-text"></i>
                                 Laporan Hasil Audit</a></li>
                         <li><a class="menu-item" href="{{ route('rekomendasi.index') }}"><i
-                                    class="fa fa-check-circle"></i> Rekomendasi</a></li>
+                                    class="fa fa-check-circle"></i> Monitoring TL</a></li>
                         {{-- <li><a class="menu-item" href="{{ route('tindakLanjut.index') }}"><i class="fa fa-tasks"></i>
                                 Monitoring TL</a></li> --}}
                     </ul>
@@ -51,8 +51,8 @@
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
                 <li><a class="menu-item" href="{{ route('audit.index') }}"><i class="fa fa-file-text"></i> Laporan Hasil
                         Audit</a></li>
-                <li><a class="menu-item" href="{{ route('rekomendasi.index') }}"><i class="fa fa-tasks"></i> Rekomendasi
-                        & TL</a></li>
+                <li><a class="menu-item" href="{{ route('rekomendasi.index') }}"><i class="fa fa-tasks"></i> Monitoring
+                        TL</a></li>
             </ul>
         </div>
     </div>
