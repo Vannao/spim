@@ -97,6 +97,20 @@
                                                     </div>
                                                 </fieldset>
                                             </div>
+                                                <div class="col-md-3">
+                                                    <fieldset class="form-group floating-label-form-group">
+                                                        <label for="nomorLaporan">Judul Audit</label>
+                                                            <div class="position-relative has-icon-left">
+                                                                <input type="text" id="judul_audit"
+                                                                class="form-control @error('judul_audit') is-invalid @enderror"
+                                                                placeholder="Judul Audit" name="judul_audit"
+                                                                value="{{ old('judul_audit', $data->judul_audit ?? '') }}">
+                                                        <div class="form-control-position">
+                                                            <i class="fa-solid fa-file-signature"></i>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
                                             <div class="col-md-3">
                                                 <fieldset class="form-group floating-label-form-group">
                                                     <label for="tanggal">Tanggal Laporan Hasil Audit</label>
@@ -266,6 +280,25 @@
                                                         <input type="file" name="laporan_dan_lampiran"
                                                             id="laporan_dan_lampiran"
                                                             class="form-control @error('laporan_dan_lampiran') is-invalid @enderror">
+                                                        <div class="form-control-position">
+                                                            <i class="fa fa-file-pdf-o"></i>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+
+
+                                            <div class="col-md-3">
+                                                <fieldset class="form-group floating-label-form-group">
+                                                    <label for="surat_tugas">PKA
+                                                        @if (isset($data))
+                                                            <em class="text-muted">*kosongi jika tidak diubah</em>
+                                                        @endif
+                                                    </label>
+                                                    <div class="position-relative has-icon-left">
+                                                        <input type="file" name="pka"
+                                                            id="pka"
+                                                            class="form-control @error('pka') is-invalid @enderror">
                                                         <div class="form-control-position">
                                                             <i class="fa fa-file-pdf-o"></i>
                                                         </div>

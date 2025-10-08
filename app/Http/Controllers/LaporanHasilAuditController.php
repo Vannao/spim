@@ -34,6 +34,7 @@ class LaporanHasilAuditController extends Controller
     {
         $validated = $request->validate([
             'nomorLaporan' => 'required|unique:audits,code',
+            'judul_audit' => 'required|string',
             'tanggal' => 'required|date',
             'divisi' => 'required|string',
             'surat_tugas' => 'required|file|mimes:pdf',
@@ -42,7 +43,8 @@ class LaporanHasilAuditController extends Controller
             'berita_acara_exit_meeting' => 'required|file|mimes:pdf',
             'laporan_dan_lampiran' => 'required|file|mimes:pdf',
             'anggota' => 'nullable|array',
-            'anggota.*.anggota' => 'nullable|string'
+            'anggota.*.anggota' => 'nullable|string',
+            'pka' => 'required|file|mimes:pdf'
         ]);
 
         DB::beginTransaction();
@@ -56,12 +58,14 @@ class LaporanHasilAuditController extends Controller
                 'file_nota_dinas' => $request->file('nota_dinas')->store('audit/uploads', 'public'),
                 'berita_acara_exit_meeting' => $request->file('berita_acara_exit_meeting')->store('audit/uploads', 'public'),
                 'laporan_dan_lampiran' => $request->file('laporan_dan_lampiran')->store('audit/uploads', 'public'),
+                'pka' => $request->file('pka')->store('audit/uploads', 'public'),
             ];
 
 
 
             Audit::create([
                 'code' => $request->nomorLaporan,
+                'judul_audit' => $request->judul_audit,
                 'date' => $request->tanggal,
                 'divisi' => $request->divisi,
                 'activity' => $request->bentuk_kegiatan,

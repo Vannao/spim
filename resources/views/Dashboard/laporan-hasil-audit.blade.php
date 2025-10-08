@@ -338,6 +338,11 @@
                                     <td width="71%">${response.data.code}</td>
                                 </tr>
                                 <tr>
+                                    <th>Judul Audit</th>
+                                    <th class="text-center">:</th>
+                                    <td >${response.data.judul_audit}</td>
+                                </tr>
+                                <tr>
                                     <th>Tanggal LHA</th>
                                     <th class="text-center">:</th>
                                     <td >${response.data.date}</td>
@@ -365,6 +370,12 @@
                                     <th>PKA</th>
                                     <th class="text-center">:</th>
                                     <td><a href="/storage/${response.data.pka}" class="btn btn-primary" target="_BLANK">Lihat File</a></td>
+                                </tr>
+
+                                <tr>
+                                    <th>File Nota Dinas</th>
+                                    <th class="text-center">:</th>
+                                    <td><a href="${response.data.file_nota_dinas}" class="btn btn-primary" target="_BLANK">Lihat File</a></td>
                                 </tr>
 
                                 <tr>

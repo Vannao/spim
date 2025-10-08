@@ -94,6 +94,7 @@ class LaporanHasilAuditTable extends DataTable
                 ->width(20)
                 ->addClass('text-center'),
             Column::make('code')->title('Nomor LHA'),
+            Column::make('judul_audit')->title('Judul Audit'),
             Column::make('date')->title('Tanggal LHA'),
             Column::make('divisi')->title('Divisi / Unit'),
             Column::computed('action')->title('Aksi')

@@ -10,6 +10,7 @@ class Audit extends Model
     use HasFactory;
 
     protected $fillable = [
+        'judul_audit',
         'code',
         'date',
         'divisi',
@@ -21,7 +22,7 @@ class Audit extends Model
         'status',
         'berita_acara_exit_meeting',
         'pka',
-        'laporan_dan_lampiran'
+        'laporan_dan_lampiran',
     ];
 
     public function getFileSuratTugasAttribute($value)
