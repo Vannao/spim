@@ -76,7 +76,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('laporan-hasil-audit/{id}/update', [LaporanHasilAuditController::class, 'update'])->name('update');
         Route::delete('laporan-hasil-audit/destroy', [LaporanHasilAuditController::class, 'destroy'])->name('destroy');
 
-        Route::get('temuan/{audit}', [TemuanController::class, 'index'])->name('temuan.index');
+        Route::get('temuan/{auditId}', [TemuanController::class, 'index'])->name('temuan.index');
         Route::get('temuan/{id}/show', [TemuanController::class, 'show'])->name('temuan.show');
         Route::get('temuan/{audit}/{id}/edit', [TemuanController::class, 'edit'])->name('temuan.edit');
         Route::get('temuan/{audit}/create', [TemuanController::class, 'create'])->name('temuan.create');
@@ -92,7 +92,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('notice/{audit}/{id}/update', [HalPerluDiperhatikanController::class, 'update'])->name('notice.update');
         Route::delete('notice/destroy', [HalPerluDiperhatikanController::class, 'destroy'])->name('notice.destroy');
 
-        Route::get('rekomendasi/{audit}', [RecomendedController::class, 'index'])->name('rekomendasi.index');
+        Route::get('rekomendasi/{auditId}', [RecomendedController::class, 'index'])->name('rekomendasi.index');
         // Route::get('rekomendasi/{id}/show', [RecomendedController::class, 'show'])->name('rekomendasi.show');
         Route::get('rekomendasi/{audit}/{id}/edit', [RecomendedController::class, 'edit'])->name('rekomendasi.edit');
         Route::get('rekomendasi/{audit}/create', [RecomendedController::class, 'create'])->name('rekomendasi.create');

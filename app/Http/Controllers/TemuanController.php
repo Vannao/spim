@@ -18,9 +18,13 @@ class TemuanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(TemuanTable $dataTable, $auditId)
+    public function index($auditId)
     {
-        return $dataTable->render('Dashboard.Temuan.temuan', ['auditId' => $auditId]);
+        // Ambil semua temuan berdasarkan id_audit
+        $temuan = Temuan::where('id_audit', $auditId)->get();
+
+        // Kirim ke view
+        return view('Dashboard.Temuan.test', ['temuan' => $temuan]);
     }
 
 

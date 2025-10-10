@@ -39,7 +39,7 @@ class LaporanHasilAuditTable extends DataTable
                         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(62px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
                             <a class="dropdown-item" href="' . route('audit.notice.index', $row->id) . '">Hal-hal yang perlu diperhatikan</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="' . route('audit.rekomendasi.index', $row->id) . '">Temuan & Rekomendasi</a>
+                            <a class="dropdown-item" href="' . route('audit.temuan.index', $row->id) . '">Temuan & Rekomendasi</a>
                         </div>
                     </div>
                 ';
