@@ -170,14 +170,14 @@
                                                                 @endif
                                                             </td>
                                                             </td>
-                                                            <td>{{ $recomended->audit->date ?? '-' }}</td>
+                                                            <td>{{ $recomended->temuan->audit->date ?? '-' }}</td>
                                                             <td>
                                                                 <a href="{{ route('halamanUpdateRecomendeds', $recomended->id) }}"
                                                                     class="btn btn-sm btn-primary">
                                                                     Ubah Status
                                                                 </a>
                                                             </td>
-                                                            <td><a href="{{ route('halamanIsiTL', $recomended->id) }}">Buat
+                                                            <td><a href="{{ route('audit.tindak-lanjut.index', $recomended->id) }}">Buat
                                                                     Tindak-Lanjut</a>
                                                             </td>
                                                         </tr>

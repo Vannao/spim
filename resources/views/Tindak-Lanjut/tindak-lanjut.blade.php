@@ -42,7 +42,7 @@
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="mb-0">Daftar Tindak Lanjut</h4>
+                                    <h4 class="mb-0">Daftar Tindak Lanjut - {{ $title }}</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -74,8 +74,17 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                        {{-- Pagination links --}}
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <div class="text-muted">
+                                                Menampilkan {{ $tindakLanjuts->firstItem() }}–{{ $tindakLanjuts->lastItem() }} dari {{ $tindakLanjuts->total() }} data
+                                            </div>
+                                            <div>
+                                                {{ $tindakLanjuts->links() }}
+                                            </div>
+                                        </div>
                                         <div class="d-flex justify-content-center">
-                                            {{ $tindakLanjuts->links() }}
+                                            {{-- {{ $tindakLanjuts->links() }} --}}
                                         </div>
 
                                     </div>
@@ -93,12 +102,11 @@
                                     <form action="{{ route('tl.store') }}" method="POST">
                                         @csrf
 
-                                        <input type="hidden" name="id_recomendeds" value="{{ $recomended->id }}">
+                                        <input type="hidden" name="id_recomendeds" value="{{ $id_recomendeds }}">
 
                                         <div class="form-group">
                                             <label for="judul_rekomendasi">Judul Rekomendasi:</label>
-                                            <input type="text" class="form-control" id="judul_rekomendasi"
-                                                value="{{ $recomended->title }}" readonly>
+                                            <input type="text" class="form-control" id="judul_rekomendasi">
                                         </div>
 
                                         <div class="form-group">

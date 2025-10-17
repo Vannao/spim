@@ -127,8 +127,6 @@
                                         <button type="submit" class="btn btn-primary">Tambah</button>
                                     </form>
                                 </div>
-                                pic
-                                <input type="text">
                             </div>
                         </div>
                     </div>

@@ -12,9 +12,17 @@ use App\DataTables\TindakLanjutTable;
 
 class TindakLanjutController extends Controller
 {
-    public function index(TindakLanjutTable $dataTable)
+    public function index($rekomendasiId)
     {
-        return $dataTable->render('Tindak-Lanjut.tindak-lanjut');
+
+        // Ambil semua temuan berdasarkan id_audit
+        $tindak_lanjut = TindakLanjut::where('id_recomendeds', $rekomendasiId)->paginate(5);
+        // $rekomended = Recomended::where("id",)->get();
+        $rekomendasi = Recomended::find($rekomendasiId);
+        // dd($rekomendasiId);
+
+        // Kirim ke view
+        return view('Tindak-Lanjut.tindak-lanjut', ['tindakLanjuts' => $tindak_lanjut, 'id_recomendeds' => $rekomendasiId, 'title' => $rekomendasi->title]);
     }
 
     public function show($recomendedId)
@@ -53,8 +61,13 @@ class TindakLanjutController extends Controller
     {
         $recomended = Recomended::findOrFail($id);
         $tindakLanjuts = TindakLanjut::where('id_recomendeds', $id)->paginate(2);
+        $title = Recomended::find($id);
 
-        return view('Tindak-Lanjut.tindak-lanjut', compact('recomended', 'tindakLanjuts'));
+        return view('Tindak-Lanjut.tindak-lanjut', [
+            'recomended' => $recomended,
+            'tindakLanjuts' => $tindakLanjuts,
+            'title' => $title->title,
+]);
     }
 
 

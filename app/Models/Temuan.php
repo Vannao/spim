@@ -11,7 +11,7 @@ class Temuan extends Model
 
     protected $table = 'temuan';
     protected $primaryKey = 'id';
-    protected $fillable = ['isi_temuan', 'jenis_temuan', 'akibat'];
+    protected $fillable = ['isi_temuan', 'jenis_temuan', 'akibat', 'id_audit'];
 
 
     public function audit()

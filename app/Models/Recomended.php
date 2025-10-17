@@ -12,7 +12,7 @@ class Recomended extends Model
     protected $table = 'recomendeds';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['audit_id', 'title', 'status', 'closed_file_surat', 'batas_waktu', 'pic'];
+    protected $fillable = ['id_temuan', 'title', 'status', 'closed_file_surat', 'batas_waktu', 'pic'];
 
     public function temuan()
     {
@@ -22,5 +22,10 @@ class Recomended extends Model
     public function tindakLanjut()
     {
         return $this->hasMany(TindakLanjut::class, 'id_recomendeds');
+    }
+
+    public function audit()
+    {
+        return $this->belongsTo(Audit::class, 'audit_id'); // pastikan foreign key-nya benar
     }
 }

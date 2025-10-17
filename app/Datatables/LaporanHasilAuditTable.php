@@ -71,7 +71,7 @@ class LaporanHasilAuditTable extends DataTable
             ->minifiedAjax()
             ->dom('Bfrtip')
             // ->dom('lfrtip')
-            ->pageLength(10)
+            ->pageLength(5)
             ->lengthMenu([5, 10, 20, 50, 100, 200, 500])
             ->orderBy(1)
             ->selectStyleSingle()

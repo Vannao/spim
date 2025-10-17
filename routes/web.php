@@ -80,7 +80,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('temuan/{id}/show', [TemuanController::class, 'show'])->name('temuan.show');
         Route::get('temuan/{audit}/{id}/edit', [TemuanController::class, 'edit'])->name('temuan.edit');
         Route::get('temuan/{audit}/create', [TemuanController::class, 'create'])->name('temuan.create');
-        Route::post('temuan/{audit}/store', [TemuanController::class, 'store'])->name('temuan.store');
+        Route::post('temuan/store', [TemuanController::class, 'store'])->name('temuan.store');
         Route::put('temuan/{audit}/{id}/update', [TemuanController::class, 'update'])->name('temuan.update');
         Route::delete('temuan/destroy', [TemuanController::class, 'destroy'])->name('temuan.destroy');
 
@@ -92,13 +92,16 @@ Route::middleware(['auth'])->group(function () {
         Route::put('notice/{audit}/{id}/update', [HalPerluDiperhatikanController::class, 'update'])->name('notice.update');
         Route::delete('notice/destroy', [HalPerluDiperhatikanController::class, 'destroy'])->name('notice.destroy');
 
-        Route::get('rekomendasi/{auditId}', [RecomendedController::class, 'index'])->name('rekomendasi.index');
+        Route::get('rekomendasi/{auditId}', [RecomendedController::class, 'index'])->name('rekomendasi.index-user');
         // Route::get('rekomendasi/{id}/show', [RecomendedController::class, 'show'])->name('rekomendasi.show');
         Route::get('rekomendasi/{audit}/{id}/edit', [RecomendedController::class, 'edit'])->name('rekomendasi.edit');
         Route::get('rekomendasi/{audit}/create', [RecomendedController::class, 'create'])->name('rekomendasi.create');
-        Route::post('rekomendasi/{audit}/store', [RecomendedController::class, 'store'])->name('rekomendasi.store');
+        Route::post('rekomendasi/store', [RecomendedController::class, 'store'])->name('rekomendasi.store');
         Route::put('rekomendasi/{audit}/{id}/update', [RecomendedController::class, 'update'])->name('rekomendasi.update');
         Route::delete('rekomendasi/destroy', [RecomendedController::class, 'destroy'])->name('rekomendasi.destroy');
+
+
+        Route::get('tindak-lanjut/{rekomendasiId}', [TindakLanjutController::class, 'index'])->name('tindak-lanjut.index');
     });
 
     Route::get('rekomendasi', [RecomendedController::class, 'tampilTable'])->name('rekomendasi.index');
