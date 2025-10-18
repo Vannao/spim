@@ -94,10 +94,10 @@
                                             @method('PUT')
 
                                             <div>
-                                                <p><strong>Judul Audit:</strong> {{ $recomendeds->audit->title }}</p>
-                                                <p><strong>Kode Audit:</strong> {{ $recomendeds->audit->code }}</p>
-                                                <p><strong>Divisi:</strong> {{ $recomendeds->audit->divisi }}</p>
-                                                <p><strong>Aktivitas:</strong> {{ $recomendeds->audit->activity }}</p>
+                                                <p><strong>Judul Audit:</strong> {{ $recomendeds->title }}</p>
+                                                <p><strong>Kode Audit:</strong> {{ $recomendeds->code }}</p>
+                                                <p><strong>Divisi:</strong> {{ $recomendeds->divisi }}</p>
+                                                <p><strong>Aktivitas:</strong> {{ $recomendeds->activity }}</p>
                                                 <hr>
                                                 <label for="status"><strong>Status</strong></label>
                                                 <select name="status" class="form-control">

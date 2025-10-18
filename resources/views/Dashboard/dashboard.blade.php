@@ -180,7 +180,7 @@
                         <div class="card">
                             <div class="card-content">
                                 <div class="card-body">
-                                    <h4 class="card-title">Total Temuan Masing-masing Unit</h4>
+                                    <h4 class="card-title">Total Rekomendasi Keseluruhan</h4>
                                     <canvas id="auditPieChart"></canvas>
                                 </div>
                             </div>

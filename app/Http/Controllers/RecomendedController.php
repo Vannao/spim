@@ -75,7 +75,7 @@ class RecomendedController extends Controller
         ]);
 
 
-        return redirect()->to('tindak-lanjut')->with('success', 'Status Diubah');
+        return redirect()->to('rekomendasi')->with('success', 'Status Diubah');
     }
 
     public function create($auditId)

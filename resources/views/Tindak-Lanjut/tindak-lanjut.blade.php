@@ -105,7 +105,7 @@
                                         <input type="hidden" name="id_recomendeds" value="{{ $id_recomendeds }}">
 
                                         <div class="form-group">
-                                            <label for="judul_rekomendasi">Judul Rekomendasi:</label>
+                                            <label for="judul_rekomendasi">Judul Tindak Lanjut:</label>
                                             <input type="text" class="form-control" id="judul_rekomendasi">
                                         </div>
 
